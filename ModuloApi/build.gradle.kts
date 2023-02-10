@@ -55,12 +55,21 @@ tasks {
 }
 
 publishing {
-
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/aytronnn/Modulo")
+            credentials {
+                username = project.findProperty("github_username") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("github_token") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
     publications {
-        create<MavenPublication>("mavenJava") {
+        register<MavenPublication>("gpr") {
+            version = System.getenv("PROJECT_VERSION") ?: (findProperty("projectVersion").toString() ?: "")
             groupId = "fr.aytronn"
             artifactId = "modulo-api"
-            version = version
             from(components["java"])
         }
     }
