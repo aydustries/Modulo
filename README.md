@@ -4,28 +4,44 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 
 ## Summary
 
-- [How to build](#how-to-build)
+- [How to build](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-build)
 - [How to deploy](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-deploy)
 - [How To Developers](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-developers)
 - [Basic Usage](#basic-usage)
 
-## How to build
-
-```sh
-./gradlew clean shadowJar
-```
-
-### Environment variables
-
-- `PROJECT_VERSION` - the version of the project - default: `develop`
-- `USERNAME` - the maven user - default: ``
-- `TOKEN` - the maven pass - default: ``
-- `REPO_URL` - the maven repo - default: ``
-
-<br/>
-This will build the project.
-
 ## Basic Usage
+
+### How to add the dependency
+```xml
+<repository>
+    <url>"https://maven.pkg.github.com/aytronnn/Modulo"</url>
+</repository>
+```
+* Artifact Information:
+```xml
+<dependency>
+    <groupId>fr.aytronn</groupId>
+    <artifactId>modulo-api</artifactId>
+    <version>latest</version>
+</dependency>
+ ```
+
+**Or alternatively, with Gradle:**
+
+* Repository:
+```kotlin
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/aytronnn/Modulo")
+    }
+}
+dependencies {
+    compileOnly("fr.aytronn:modulo-api:latest")
+}
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(19))
+}
+```
 
 ### Create a module
 
