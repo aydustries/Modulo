@@ -17,13 +17,10 @@ dependencies {
     api("org.slf4j:slf4j-simple:1.7.26")
     api("com.google.code.gson:gson:2.8.9")
 
-    api("com.github.atomashpolskiy:bt-core:1.10")
-    api("com.github.atomashpolskiy:bt-http-tracker-client:1.10")
-    api("com.github.atomashpolskiy:bt-dht:1.10")
-
     api("io.netty:netty-all:4.1.86.Final")
 
     api("org.apache.logging.log4j:log4j-core:2.17.1")
+    api("com.google.guava:guava:31.1-jre")
 
     api("org.mongodb:mongodb-driver-sync:4.6.0")
     api("org.mongodb:bson:4.6.0")
@@ -52,6 +49,11 @@ tasks {
     processResources {
         filteringCharset = Charsets.UTF_8.name()
     }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
