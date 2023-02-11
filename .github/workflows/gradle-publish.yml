@@ -9,8 +9,8 @@ name: Gradle Package
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -42,6 +42,6 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PROJECT_VERSION: ${{ secrets.PROJECT_VERSION }}
+        PROJECT_VERSION: ${{ github.ref_name }}
         REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew publish
