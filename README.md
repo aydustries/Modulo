@@ -77,7 +77,7 @@ public class Example extends IModule {
 
 ### Create a command
 
-![](./img/discord_command.png)
+![](https://user-images.githubusercontent.com/72011165/218261719-9d8428fb-9589-4634-a94e-75f6d8ae199d.png)
 
 ```java
 public class ExampleCommand {
