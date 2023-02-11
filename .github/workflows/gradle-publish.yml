@@ -37,14 +37,21 @@ jobs:
         REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew clean shadowJar
     - name: CheckStyle
+      env:
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew checkstyleMain
     - name: Login to docker
+      env:
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Build and Push docker image
+      env:
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew dockerPushDockerHub
     - name: Publish to GitHub Packages
       env:
         USERNAME: ${{ secrets.USERNAME }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PROJECT_VERSION: ${{ github.ref_name }}
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew publish
