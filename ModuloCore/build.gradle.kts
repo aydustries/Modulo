@@ -99,9 +99,9 @@ repositories {
 }
 
 docker {
-    name = "modulo:latest"
+    name = "modulo:${version}"
     files("./build/libs/ModuloCore.jar", "./start.sh")
-    tag("DockerHub", "aytronn/modulo:latest")
+    tag("DockerHub", "aytronn/modulo:${version}")
 }
 
 tasks.withType<Jar> {
