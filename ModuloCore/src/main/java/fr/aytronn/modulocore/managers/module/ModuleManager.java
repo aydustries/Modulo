@@ -236,7 +236,7 @@ public class ModuleManager implements IModuleManager {
      */
     @Override
     public void registerListener(IModule module, GloballyAttachableListener listener) {
-        ModuloCore.getInstance().registerListeners(listener);
+        ModuloCore.getInstance().registerListener(listener);
         getListeners().computeIfAbsent(module, k -> new ObjectArrayList<>()).add(listener);
 
     }
@@ -249,7 +249,7 @@ public class ModuleManager implements IModuleManager {
      */
     @Override
     public void registerCommand(IModule module, Object commandClass) {
-        ModuloCore.getInstance().registerCommands(commandClass);
+        ModuloCore.getInstance().registerCommand(commandClass);
         getCommands().computeIfAbsent(module, k -> new ObjectArrayList<>()).add(commandClass);
     }
 

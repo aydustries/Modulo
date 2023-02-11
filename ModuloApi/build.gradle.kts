@@ -60,7 +60,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/aytronnn/Modulo")
+            url = uri(project.findProperty("repoUrl") as String? ?: System.getenv("REPO_URL"))
             credentials {
                 username = project.findProperty("github_username") as String? ?: System.getenv("USERNAME")
                 password = project.findProperty("github_token") as String? ?: System.getenv("TOKEN")

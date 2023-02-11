@@ -93,16 +93,16 @@ public class ModuloCore {
         }
     }
 
-    public void registerCommands(Object object) {
+    public void registerCommand(Object object) {
         getCommandManager().registerCommand(object);
     }
 
-    public void registerListeners(GloballyAttachableListener listener) {
+    public void registerListener(GloballyAttachableListener listener) {
         getDiscordApi().addListener(listener);
     }
 
     private void registerListeners() {
-        registerListeners(new CommandListener());
+        registerListener(new CommandListener());
     }
 
     public static ModuloCore getInstance() {

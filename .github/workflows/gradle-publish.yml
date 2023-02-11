@@ -43,4 +43,5 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PROJECT_VERSION: ${{ secrets.PROJECT_VERSION }}
+        REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew publish
