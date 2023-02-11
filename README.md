@@ -7,7 +7,7 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 - [How to build](#how-to-build)
 - [How to deploy](#how-to-deploy)
 - [How To Developers](#how-to-developers)
-- [Basic Usage](#basis-usage)
+- [Basic Usage](#basic-usage)
 
 ## How to build
 
