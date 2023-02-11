@@ -116,7 +116,7 @@ public class Example extends IModule {
 
 ### Create a command
 
-![](https://github.com/aytronnn/Modulo/tree/master/img/discord_command.png)
+![](https://github.com/aytronnn/Modulo/blob/master/img/discord_command.png)
 
 ```java
 public class ExampleCommand {
