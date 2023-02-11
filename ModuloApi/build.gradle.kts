@@ -72,6 +72,23 @@ publishing {
             version = System.getenv("PROJECT_VERSION") ?: (findProperty("projectVersion").toString() ?: "")
             groupId = "fr.aytronn"
             artifactId = "modulo-api"
+            pom {
+                name.set("Modulo")
+                description.set("You can see it as a minecraft server with plugins. Modulo will load the modules you added in the modules folder.")
+                url.set("https://github.com/aytronnn/Modulo")
+                licenses {
+                    license {
+                        name.set("GNU General Public License v3.0")
+                        url.set("https://github.com/aytronnn/Modulo/blob/master/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("aytronn")
+                        email.set("aytronn18@gmail.com")
+                    }
+                }
+            }
             from(components["java"])
         }
     }
