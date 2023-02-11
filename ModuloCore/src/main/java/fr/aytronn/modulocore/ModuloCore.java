@@ -24,6 +24,7 @@ public class ModuloCore {
     private Persist persist;
     private final Gson gson;
     private Configuration config;
+    private File folder;
     private final CommandManager commandManager;
     private final ModuloApiImpl moduloApi;
 
@@ -122,7 +123,13 @@ public class ModuloCore {
     }
 
     public File getDataFolder() {
-        return new File("ModuloCore");
+        if (this.folder == null) {
+            this.folder = new File("ModuloCore");
+            if (!this.folder.exists()) {
+                this.folder.mkdirs();
+            }
+        }
+        return this.folder;
     }
 
     public Gson getGson() {
