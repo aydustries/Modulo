@@ -17,6 +17,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * @author HookWoods
+ */
 public class DiscUtil implements IDiscUtil {
 
     private final Object2ObjectMap<String, Lock> locks;

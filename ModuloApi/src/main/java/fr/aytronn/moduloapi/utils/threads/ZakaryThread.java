@@ -9,6 +9,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author HookWoods
+ */
 public enum ZakaryThread {
 
     TASK_THREAD("Task Thread", true, Thread.NORM_PRIORITY, 1),

@@ -3,6 +3,7 @@ package fr.aytronn.moduloapi.modules;
 import fr.aytronn.moduloapi.modules.exception.InvalidModuleException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import org.javacord.api.entity.Attachment;
 import org.javacord.api.listener.GloballyAttachableListener;
 
 import java.io.File;
@@ -165,10 +166,25 @@ public interface IModuleManager {
     void reloadModules();
 
     /**
+     * Reload specific module
+     *
+     * @param module to be reloaded
+     */
+    void reloadModule(IModule module);
+
+    /**
      * Useful to disable every modules
      */
     void disableModules();
 
+    /**
+     * Useful to disable a specific module
+     *
+     * @param module to disable
+     *
+     * @return true if the module was loaded
+     */
+    boolean loadModule(String module);
 
     /**
      * Useful to disable a specific module
@@ -176,4 +192,21 @@ public interface IModuleManager {
      * @param module to disable
      */
     void disableModule(IModule module);
+
+
+    /**
+     * Useful to download a module from an attachment
+     *
+     * @param attachment to download
+     */
+    void downloadModuleFromAttachment(Attachment attachment);
+
+    /**
+     * Useful to delete a module
+     *
+     * @param module to delete
+     *
+     * @return true if the module was deleted
+     */
+    boolean deleteModule(IModule module);
 }

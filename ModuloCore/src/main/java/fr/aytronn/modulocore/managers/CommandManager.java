@@ -1,11 +1,11 @@
 package fr.aytronn.modulocore.managers;
 
-import fr.aytronn.modulocore.ModuloCore;
+import fr.aytronn.moduloapi.command.Command;
 import fr.aytronn.moduloapi.command.CommandArgs;
 import fr.aytronn.moduloapi.command.SlashCommandObject;
-import fr.aytronn.moduloapi.command.SubCommandObject;
 import fr.aytronn.moduloapi.command.SubCommandGroupObject;
-import fr.aytronn.moduloapi.command.Command;
+import fr.aytronn.moduloapi.command.SubCommandObject;
+import fr.aytronn.modulocore.ModuloCore;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.SlashCommandOptionType;
@@ -40,7 +40,7 @@ public class CommandManager {
             final var command = m.getAnnotation(Command.class);
             if (command == null) continue;
 
-            final String[] split = command.name().split("\\.");
+            final String[] split = command.name().toLowerCase().split("\\.");
 
             if (split.length == 4 || split.length == 0) {
                 ModuloCore.getInstance().getLogger().error("Command " + command.name() + " is not valid");
@@ -98,9 +98,7 @@ public class CommandManager {
     public void loadCommands() {
         ModuloCore.getInstance().getLogger().info("Loading commands...");
 
-        for (final var entry : getCommands().entrySet()) {
-
-            final SlashCommandObject slashCommandObject = entry.getValue();
+        for (final var slashCommandObject : getCommands().values()) {
 
             final List<SlashCommandOption> options = new ArrayList<>();
 
@@ -119,8 +117,8 @@ public class CommandManager {
                         subCommandArgsOptions.add(
                                 SlashCommandOption.create(
                                         subCommand.getSubCommandArgsType()[i],
-                                        subCommand.getDescription(),
                                         subCommand.getSubCommandArgs()[i],
+                                        subCommand.getDescription(),
                                         subCommand.isRequired()
                                 )
                         );

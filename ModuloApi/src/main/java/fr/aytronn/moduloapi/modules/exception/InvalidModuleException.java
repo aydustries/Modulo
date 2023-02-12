@@ -1,5 +1,8 @@
 package fr.aytronn.moduloapi.modules.exception;
 
+/**
+ * @author HookWoods
+ */
 public class InvalidModuleException extends Throwable {
     /**
      * Allow to return a error

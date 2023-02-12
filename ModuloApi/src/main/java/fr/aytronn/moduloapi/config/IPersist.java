@@ -3,6 +3,9 @@ package fr.aytronn.moduloapi.config;
 import java.io.File;
 import java.lang.reflect.Type;
 
+/**
+ * @author HookWoods
+ */
 public interface IPersist {
 
     /**

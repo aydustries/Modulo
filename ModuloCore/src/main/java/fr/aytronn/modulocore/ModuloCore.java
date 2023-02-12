@@ -8,6 +8,7 @@ import fr.aytronn.moduloapi.utils.threads.ZakaryThread;
 import fr.aytronn.modulocore.commands.CoreCommand;
 import fr.aytronn.modulocore.config.Persist;
 import fr.aytronn.modulocore.listeners.CommandListener;
+import fr.aytronn.modulocore.listeners.InteractionListener;
 import fr.aytronn.modulocore.managers.CommandManager;
 import fr.aytronn.modulocore.managers.module.ModuleManager;
 import org.javacord.api.DiscordApi;
@@ -161,6 +162,7 @@ public class ModuloCore {
 
     private void registerListeners() {
         registerListener(new CommandListener());
+        registerListener(new InteractionListener());
     }
 
     private void registerCommands() {

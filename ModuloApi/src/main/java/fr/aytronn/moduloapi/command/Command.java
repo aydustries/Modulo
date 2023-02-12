@@ -14,9 +14,9 @@ public @interface Command {
 
     String description() default "Empty description";
 
-    SlashCommandOptionType[] subCommandType();
+    SlashCommandOptionType[] subCommandType() default {};
 
-    String[] subCommand();
+    String[] subCommand() default {};
 
     boolean required() default true;
 }

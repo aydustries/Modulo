@@ -11,16 +11,22 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import org.javacord.api.entity.Attachment;
 import org.javacord.api.listener.GloballyAttachableListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
+/**
+ * @author HookWoods
+ */
 public class ModuleManager implements IModuleManager {
 
     private final Pattern jarPattern;
@@ -94,12 +100,8 @@ public class ModuleManager implements IModuleManager {
                         result.add(module);
                     }
                 } catch (Exception | InvalidModuleException e) {
-                    ModuloCore.getInstance().getLogger().warn(
-                            "ModuloAPI - Modules: Cannot load '"
-                                    + file.getName()
-                                    + "' in folder '"
-                                    + directory.getPath()
-                                    + "': " + e.getMessage());
+                    ModuloCore.getInstance().getLogger().warn("ModuloAPI - Modules: Cannot load '" + file.getName()
+                            + "' in folder '" + directory.getPath() + "': " + e.getMessage());
                 }
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -123,8 +125,7 @@ public class ModuleManager implements IModuleManager {
         final var dataFolder = new File(getModuleDir() + File.separator + file.getName());
 
         final Runnable runnable = () -> {
-            if (!dataFolder.exists())
-                dataFolder.mkdir();
+            if (!dataFolder.exists()) dataFolder.mkdir();
         };
         ZakaryThread.FILE_EXECUTOR.execute(runnable);
 
@@ -140,14 +141,8 @@ public class ModuleManager implements IModuleManager {
 
         if (result != null) {
             getModules().put(result.getModuleInfo().getName(), result);
-            ModuloCore.getInstance().getLogger().info(
-                    "ModuloAPI - Modules: "
-                            + result.getModuleInfo().getName()
-                            + " [v."
-                            + result.getModuleInfo().getVersion()
-                            + " by "
-                            + result.getModuleInfo().getAuthorsInLine()
-                            + "] loaded");
+            ModuloCore.getInstance().getLogger().info("ModuloAPI - Modules: " + result.getModuleInfo().getName()
+                    + " [v." + result.getModuleInfo().getVersion() + " by " + result.getModuleInfo().getAuthorsInLine() + "] loaded");
 
             getLoaders().put(result, loader);
 
@@ -346,6 +341,35 @@ public class ModuleManager implements IModuleManager {
     }
 
     @Override
+    public boolean loadModule(String module) {
+        for (final File file : getModuleDir().listFiles()) {
+            if (getJarPattern().matcher(file.getName()).matches()) {
+                if (file.getName().toLowerCase().contains(module.toLowerCase())) {
+                    try {
+                        loadModule(file);
+                    } catch (InvalidModuleException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void reloadModule(IModule module) {
+        if (!getModules().containsKey(module.getModuleInfo().getName()) || !module.isEnabled()) return;
+        final var jarFile = module.getJarFile();
+        disableModule(module);
+        try {
+            loadModule(jarFile);
+        } catch (InvalidModuleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void disableModules() {
         if (!getEnabledModule().isEmpty()) {
             getEnabledModule().forEach(this::disableModule);
@@ -397,5 +421,33 @@ public class ModuleManager implements IModuleManager {
         }
         // Remove it from the addons list
         getModules().remove(module.getModuleInfo().getName());
+    }
+
+    @Override
+    public void downloadModuleFromAttachment(Attachment attachment) {
+        if (!getJarPattern().matcher(attachment.getFileName()).matches()) return;
+
+        try (InputStream inputStream = attachment.asInputStream()) {
+            final byte[] fileData = inputStream.readAllBytes();
+            final FileOutputStream stream = new FileOutputStream(ModuloCore.getInstance().getModuleManager().getModuleDir() + "/" + attachment.getFileName());
+            stream.write(fileData);
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteModule(IModule module) {
+        if (module.isEnabled()) {
+            disableModule(module);
+        }
+        if (module.getJarFile().delete()) {
+            ModuloCore.getInstance().getLogger().info("ModuloAPI - Successfully deleted " + module.getModuleInfo().getName() + ".");
+            return true;
+        } else {
+            ModuloCore.getInstance().getLogger().error("ModuloAPI - Error while deleting " + module.getModuleInfo().getName() + ".");
+            return false;
+        }
     }
 }

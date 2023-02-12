@@ -3,7 +3,6 @@ package fr.aytronn.moduloapi.config;
 public class Configuration {
     private String mongoUri = "";
     private String botToken = "";
-
     private String serverId = "";
 
     public String getMongoUri() {

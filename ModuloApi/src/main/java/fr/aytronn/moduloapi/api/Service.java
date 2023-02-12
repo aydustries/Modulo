@@ -1,5 +1,8 @@
 package fr.aytronn.moduloapi.api;
 
+/**
+ * @author HookWoods
+ */
 public abstract class Service {
 
     private final String name;

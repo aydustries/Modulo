@@ -1,5 +1,8 @@
 package fr.aytronn.moduloapi.api;
 
+/**
+ * @author HookWoods
+ */
 public interface Settings {
 
     /**

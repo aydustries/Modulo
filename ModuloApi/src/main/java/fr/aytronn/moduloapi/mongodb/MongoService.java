@@ -6,6 +6,9 @@ import fr.aytronn.moduloapi.ModuloApi;
 import fr.aytronn.moduloapi.api.AutoReconnector;
 import fr.aytronn.moduloapi.mongodb.settings.MongoSettings;
 
+/**
+ * @author HookWoods
+ */
 public class MongoService extends AutoReconnector implements IMongoService {
 
     private MongoClient mongoClient;

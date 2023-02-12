@@ -1,5 +1,8 @@
 package fr.aytronn.moduloapi.modules;
 
+/**
+ * @author HookWoods
+ */
 public interface IModuleInfo {
 
     /**

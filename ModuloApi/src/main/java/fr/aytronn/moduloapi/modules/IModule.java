@@ -13,6 +13,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * @author HookWoods
+ */
 public abstract class IModule {
     private IModuleInfo moduleInfo;
     private File dataFolder;
@@ -29,7 +32,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current module info of the module
      *
      * @param moduleInfo of the module
@@ -39,7 +42,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to init the module
      *
      * @param classLoader of the module
@@ -251,7 +254,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current data folder of the module
      *
      * @param dataFolder of the folder
@@ -261,7 +264,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current class loader of the module
      *
      * @param loader of the class loader
@@ -271,7 +274,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current state of the module
      *
      * @param state of the class loader
@@ -281,7 +284,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current logger of the module
      *
      * @param logger of the logger

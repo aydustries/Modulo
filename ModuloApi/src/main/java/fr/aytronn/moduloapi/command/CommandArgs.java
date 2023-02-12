@@ -1,6 +1,7 @@
 package fr.aytronn.moduloapi.command;
 
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
@@ -36,5 +37,16 @@ public class CommandArgs {
 
     public SlashCommandInteraction getCommandInteraction() {
         return this.commandInteraction;
+    }
+
+    public void reply(String message, MessageFlag... flags) {
+        this.commandInteraction.createImmediateResponder()
+                .setContent(message)
+                .setFlags(flags)
+                .respond();
+    }
+
+    public void reply(String message) {
+        reply(message, MessageFlag.EPHEMERAL);
     }
 }

@@ -4,6 +4,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import fr.aytronn.moduloapi.api.Settings;
 
+/**
+ * This class is useful to manage the settings of the database
+ *
+ * @param uri the uri of the database
+ *
+ * @author HookWoods
+ */
 public record MongoSettings(String uri) implements Settings {
 
     @Override

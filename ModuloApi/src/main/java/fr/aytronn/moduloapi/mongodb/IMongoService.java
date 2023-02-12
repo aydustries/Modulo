@@ -3,6 +3,9 @@ package fr.aytronn.moduloapi.mongodb;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 
+/**
+ * @author HookWoods
+ */
 public interface IMongoService {
 
     /**
