@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.aytronn.moduloapi.ModuloApi;
 import fr.aytronn.moduloapi.modules.IModuleManager;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.server.Server;
 import org.slf4j.Logger;
 
 public class ModuloApiImpl extends ModuloApi {
@@ -53,6 +54,16 @@ public class ModuloApiImpl extends ModuloApi {
     @Override
     public IModuleManager getModuleManager() {
         return getModuloCore().getModuleManager();
+    }
+
+    /**
+     * Useful to get the server discord
+     *
+     * @return the server discord
+     */
+    @Override
+    public Server getDiscordServer() {
+        return getModuloCore().getDiscordServer();
     }
 
     public ModuloCore getModuloCore() {

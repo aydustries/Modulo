@@ -13,13 +13,10 @@ repositories {
 dependencies {
     api("org.javacord:javacord:3.7.0")
     api("org.yaml:snakeyaml:1.27")
-    api("org.slf4j:slf4j-api:1.7.26")
-    api("org.slf4j:slf4j-simple:1.7.26")
     api("com.google.code.gson:gson:2.8.9")
-
     api("io.netty:netty-all:4.1.86.Final")
 
-    api("org.apache.logging.log4j:log4j-core:2.17.1")
+    api("org.apache.logging.log4j:log4j-slf4j-impl:2.9.0")
     api("com.google.guava:guava:31.1-jre")
 
     api("org.mongodb:mongodb-driver-sync:4.6.0")

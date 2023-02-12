@@ -10,10 +10,12 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.javacord.api.listener.GloballyAttachableListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -93,7 +95,7 @@ public class ModuleManager implements IModuleManager {
                     }
                 } catch (Exception | InvalidModuleException e) {
                     ModuloCore.getInstance().getLogger().warn(
-                            "ZakaryAPI - Modules: Cannot load '"
+                            "ModuloAPI - Modules: Cannot load '"
                                     + file.getName()
                                     + "' in folder '"
                                     + directory.getPath()
@@ -116,7 +118,7 @@ public class ModuleManager implements IModuleManager {
     public IModule loadModule(File file) throws InvalidModuleException {
         final IModule result;
 
-        if (!file.exists()) throw new InvalidModuleException(new FileNotFoundException("ZakaryAPI - Modules: " + file.getPath() + " does not exist"));
+        if (!file.exists()) throw new InvalidModuleException(new FileNotFoundException("ModuloAPI - Modules: " + file.getPath() + " does not exist"));
 
         final var dataFolder = new File(getModuleDir() + File.separator + file.getName());
 
@@ -139,7 +141,7 @@ public class ModuleManager implements IModuleManager {
         if (result != null) {
             getModules().put(result.getModuleInfo().getName(), result);
             ModuloCore.getInstance().getLogger().info(
-                    "ZakaryAPI - Modules: "
+                    "ModuloAPI - Modules: "
                             + result.getModuleInfo().getName()
                             + " [v."
                             + result.getModuleInfo().getVersion()
@@ -335,5 +337,65 @@ public class ModuleManager implements IModuleManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public void reloadModules() {
+        disableModules();
+        loadModules();
+    }
+
+    @Override
+    public void disableModules() {
+        if (!getEnabledModule().isEmpty()) {
+            getEnabledModule().forEach(this::disableModule);
+            ModuloCore.getInstance().getLogger().info("ModuloAPI - Modules: Successfully disabled.");
+        }
+        getCommands().clear();
+        getListeners().clear();
+        getModules().clear();
+        getLoaders().clear();
+        getClasses().clear();
+    }
+
+    @Override
+    public void disableModule(IModule module) {
+        // Clear listeners
+        if (getListeners().containsKey(module)) {
+            getListeners().get(module).forEach(globallyAttachableListener -> {
+                ModuloCore.getInstance().unregisterListener(globallyAttachableListener);
+            });
+            getListeners().remove(module);
+        }
+        if (getCommands().containsKey(module)) {
+            getCommands().get(module).forEach(command -> {
+                ModuloCore.getInstance().unregisterCommand(command);
+            });
+            getCommands().remove(module);
+        }
+        if (module.isEnabled()) {
+            ModuloCore.getInstance().getLogger().info("ModuloAPI - Modules: Disabling " + module.getModuleInfo().getName() + "...");
+            try {
+                module.onDisable();
+            } catch (Exception e) {
+                ModuloCore.getInstance().getLogger().error("ModuloAPI - Modules: Error while disabling " + module.getModuleInfo().getName(), e);
+            }
+        }
+        // Clear loaders
+        if (getLoaders().containsKey(module)) {
+            final ObjectSet<String> unmodifiableSet = getLoaders().get(module).getClasses();
+            for (final String className : unmodifiableSet) {
+                getClasses().remove(className);
+            }
+            module.setState(IModule.State.DISABLED);
+            try {
+                getLoaders().get(module).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            getLoaders().remove(module);
+        }
+        // Remove it from the addons list
+        getModules().remove(module.getModuleInfo().getName());
     }
 }

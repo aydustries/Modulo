@@ -2,10 +2,11 @@ package fr.aytronn.modulocore.managers;
 
 import fr.aytronn.modulocore.ModuloCore;
 import fr.aytronn.moduloapi.command.CommandArgs;
-import fr.aytronn.moduloapi.command.SlashCommand;
-import fr.aytronn.moduloapi.command.SubCommand;
-import fr.aytronn.moduloapi.command.SubCommandGroup;
+import fr.aytronn.moduloapi.command.SlashCommandObject;
+import fr.aytronn.moduloapi.command.SubCommandObject;
+import fr.aytronn.moduloapi.command.SubCommandGroupObject;
 import fr.aytronn.moduloapi.command.Command;
+import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.SlashCommandOptionType;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class CommandManager {
 
-    Map<String, SlashCommand> commands;
+    Map<String, SlashCommandObject> commands;
 
     Map<String, Map.Entry<Method, Object>> methods;
 
@@ -46,35 +47,46 @@ public class CommandManager {
                 continue;
             }
 
-            SlashCommand slashCommand = getCommands().get(split[0]);
+            SlashCommandObject slashCommandObject = getCommands().get(split[0]);
 
-            if (slashCommand == null) {
-                slashCommand = new SlashCommand(split[0]);
+            if (slashCommandObject == null) {
+                slashCommandObject = new SlashCommandObject(split[0]);
 
                 switch (split.length) {
-                    case 1 -> slashCommand.setDescription(command.description());
-                    case 2 -> slashCommand.addSubCommandGroup(new SubCommandGroup(split[1], command.description(), command.subCommand(), command.subCommandType()));
+                    case 1 -> slashCommandObject.setDescription(command.description());
+                    case 2 -> {
+                        final SubCommandGroupObject subCommandGroupObject = new SubCommandGroupObject(split[1], command.description(), command.subCommand(), command.subCommandType());
+                        subCommandGroupObject.setRequired(command.required());
+                        slashCommandObject.addSubCommandGroup(subCommandGroupObject);
+                    }
                     case 3 -> {
-                        final SubCommandGroup subCommandGroup = new SubCommandGroup(split[1], command.description());
-                        subCommandGroup.addSubCommand(new SubCommand(split[2], command.description(), command.subCommand(), command.subCommandType()));
-                        slashCommand.addSubCommandGroup(subCommandGroup);
+                        final SubCommandGroupObject subCommandGroupObject = new SubCommandGroupObject(split[1], command.description());
+                        final SubCommandObject subCommandObject = new SubCommandObject(split[2], command.description(), command.subCommand(), command.subCommandType());
+                        subCommandObject.setRequired(command.required());
+                        subCommandGroupObject.addSubCommand(subCommandObject);
+                        slashCommandObject.addSubCommandGroup(subCommandGroupObject);
                     }
                 }
-                getCommands().put(split[0], slashCommand);
+                getCommands().put(split[0], slashCommandObject);
             } else {
                 switch (split.length) {
                     case 2 -> {
-                        slashCommand.addSubCommandGroup(new SubCommandGroup(split[1], command.description(), command.subCommand(), command.subCommandType()));
+                        final SubCommandGroupObject subCommandGroupObject = new SubCommandGroupObject(split[1], command.description(), command.subCommand(), command.subCommandType());
+                        subCommandGroupObject.setRequired(command.required());
+                        slashCommandObject.addSubCommandGroup(subCommandGroupObject);
                     }
                     case 3 -> {
-                        SubCommandGroup subCommandGroup = slashCommand.getSubCommandGroups().get(split[1]);
+                        SubCommandGroupObject subCommandGroupObject = slashCommandObject.getSubCommandGroups().get(split[1]);
 
-                        if (subCommandGroup == null) {
-                            subCommandGroup = new SubCommandGroup(split[1], command.description());
+                        if (subCommandGroupObject == null) {
+                            subCommandGroupObject = new SubCommandGroupObject(split[1], command.description());
                         }
 
-                        subCommandGroup.addSubCommand(new SubCommand(split[2], command.description(), command.subCommand(), command.subCommandType()));
-                        slashCommand.addSubCommandGroup(subCommandGroup);
+                        final SubCommandObject subCommandObject = new SubCommandObject(split[2], command.description(), command.subCommand(), command.subCommandType());
+                        subCommandObject.setRequired(command.required());
+
+                        subCommandGroupObject.addSubCommand(subCommandObject);
+                        slashCommandObject.addSubCommandGroup(subCommandGroupObject);
                     }
                 }
             }
@@ -88,17 +100,17 @@ public class CommandManager {
 
         for (final var entry : getCommands().entrySet()) {
 
-            final SlashCommand slashCommand = entry.getValue();
+            final SlashCommandObject slashCommandObject = entry.getValue();
 
             final List<SlashCommandOption> options = new ArrayList<>();
 
-            for (final var subCommandGroup : slashCommand.getSubCommandGroups().values()) {
+            for (final var subCommandGroup : slashCommandObject.getSubCommandGroups().values()) {
 
                 final List<SlashCommandOption> subCommandOptions = new ArrayList<>();
 
                 for (final var subCommand : subCommandGroup.getSubCommands().values()) {
                     if (subCommand.getSubCommandArgs().length != subCommand.getSubCommandArgsType().length) {
-                        ModuloCore.getInstance().getLogger().error("SubCommand " + slashCommand.getCommand() + " " + subCommandGroup.getSubCommandGroup() + " " + subCommand.getSubCommand() + " is not valid");
+                        ModuloCore.getInstance().getLogger().error("SubCommand " + slashCommandObject.getCommand() + " " + subCommandGroup.getSubCommandGroup() + " " + subCommand.getSubCommand() + " is not valid");
                         continue;
                     }
 
@@ -109,7 +121,7 @@ public class CommandManager {
                                         subCommand.getSubCommandArgsType()[i],
                                         subCommand.getDescription(),
                                         subCommand.getSubCommandArgs()[i],
-                                        true
+                                        subCommand.isRequired()
                                 )
                         );
                     }
@@ -126,7 +138,7 @@ public class CommandManager {
 
                 if (subCommandOptions.isEmpty()) {
                     if (subCommandGroup.getSubCommandArgs().length != subCommandGroup.getSubCommandArgsType().length) {
-                        ModuloCore.getInstance().getLogger().error("SubCommand " + slashCommand.getCommand() + " " + subCommandGroup.getSubCommandGroup() + " is not valid");
+                        ModuloCore.getInstance().getLogger().error("SubCommand " + slashCommandObject.getCommand() + " " + subCommandGroup.getSubCommandGroup() + " is not valid");
                         continue;
                     }
 
@@ -137,7 +149,7 @@ public class CommandManager {
                                         subCommandGroup.getSubCommandArgsType()[i],
                                         subCommandGroup.getSubCommandArgs()[i],
                                         subCommandGroup.getDescription(),
-                                        true
+                                        subCommandGroup.isRequired()
                                 )
                         );
                     }
@@ -161,16 +173,43 @@ public class CommandManager {
                 }
             }
 
-            ModuloCore.getInstance().getLogger().info("Load command: " + slashCommand.getCommand());
-            org.javacord.api.interaction.SlashCommand.with(slashCommand.getCommand(), slashCommand.getDescription(), options)
-                    .createGlobal(ModuloCore.getInstance().getDiscordApi())
+            ModuloCore.getInstance().getLogger().info("Load command: " + slashCommandObject.getCommand());
+            SlashCommand.with(slashCommandObject.getCommand(), slashCommandObject.getDescription(), options)
+                    .createForServer(ModuloCore.getInstance().getDiscordServer())
                     .join();
         }
 
         ModuloCore.getInstance().getLogger().info("Commands loaded");
     }
 
-    public Map<String, SlashCommand> getCommands() {
+    public void unregisterCommand(Object object) {
+        String name = null;
+
+        for (final var entry : getMethods().entrySet()) {
+            if (entry.getValue().getValue().equals(object)) {
+                name = entry.getKey();
+                break;
+            }
+        }
+
+        if (name == null) {
+            return;
+        }
+
+        final String finalName = name;
+        ModuloCore.getInstance().getDiscordApi().getServerApplicationCommands(ModuloCore.getInstance().getDiscordServer()).join().forEach(command -> {
+            if (command.getName().equals(finalName)) {
+                command.delete().join();
+                getMethods().remove(finalName);
+            }
+        });
+    }
+
+    public void unregisterAllCommand() {
+        ModuloCore.getInstance().getDiscordApi().getServerSlashCommands(ModuloCore.getInstance().getDiscordServer()).join().forEach(command -> command.delete().join());
+    }
+
+    public Map<String, SlashCommandObject> getCommands() {
         return this.commands;
     }
 

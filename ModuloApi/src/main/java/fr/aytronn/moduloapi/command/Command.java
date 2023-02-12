@@ -17,4 +17,6 @@ public @interface Command {
     SlashCommandOptionType[] subCommandType();
 
     String[] subCommand();
+
+    boolean required() default true;
 }

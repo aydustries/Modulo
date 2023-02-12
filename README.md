@@ -82,7 +82,7 @@ public class Example extends IModule {
 ```java
 public class ExampleCommand {
 
-    @Command(name = "plexfth.clear", subCommand = {"nbMessage"}, subCommandType = {SlashCommandOptionType.DECIMAL}, description = "Clear the channel")
+    @Command(name = "plexfth.clear", subCommandObject = {"nbMessage"}, subCommandType = {SlashCommandOptionType.DECIMAL}, description = "Clear the channel")
     public void clearCommand(CommandArgs arg) {
         //Do some code for clear the channel
         
