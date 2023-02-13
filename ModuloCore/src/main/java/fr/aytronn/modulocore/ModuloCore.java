@@ -26,8 +26,8 @@ import java.util.Scanner;
 
 public class ModuloCore {
     private static ModuloCore instance;
-    private final Logger log;
-    private final DiscordApi api;
+    private final Logger logger;
+    private final DiscordApi discordApi;
     private final Persist persist;
     private final Gson gson;
     private Configuration config;
@@ -39,7 +39,7 @@ public class ModuloCore {
 
     public ModuloCore(String[] args) throws Exception {
         instance = this;
-        this.log = LoggerFactory.getLogger(ModuloCore.class);
+        this.logger = LoggerFactory.getLogger(ModuloCore.class);
         getLogger().info("==========- " + "ModuloAPI" + " -==========");
         long startMillis = System.currentTimeMillis();
         getLogger().info("Loading configuration");
@@ -56,7 +56,7 @@ public class ModuloCore {
 
         startMillis = System.currentTimeMillis();
         getLogger().info("Loading DiscordApi");
-        this.api = new DiscordApiBuilder()
+        this.discordApi = new DiscordApiBuilder()
                 .setToken(getConfig().getBotToken())
                 .setAllIntents()
                 .login()
@@ -178,11 +178,11 @@ public class ModuloCore {
     }
 
     public Logger getLogger() {
-        return this.log;
+        return this.logger;
     }
 
     public DiscordApi getDiscordApi() {
-        return this.api;
+        return this.discordApi;
     }
 
     public File getDataFolder() {

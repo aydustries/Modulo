@@ -13,7 +13,7 @@ public interface IDiscUtil {
      * @param file file
      * @return Bytes
      */
-    public byte[] readBytes(File file);
+    byte[] readBytes(File file);
 
     /**
      * Allow to writes Bytes
@@ -21,7 +21,7 @@ public interface IDiscUtil {
      * @param file Files
      * @param bytes Bytes
      */
-    public void writeBytes(File file, byte[] bytes);
+    void writeBytes(File file, byte[] bytes);
 
     /**
      * Allow to write
@@ -29,7 +29,7 @@ public interface IDiscUtil {
      * @param file File
      * @param content Content
      */
-    public default void write(File file, String content) {
+    default void write(File file, String content) {
         writeBytes(file, utf8(content));
     }
 
@@ -39,7 +39,7 @@ public interface IDiscUtil {
      * @param file File
      * @return String
      */
-    public default String read(File file) {
+    default String read(File file) {
         return utf8(readBytes(file));
     }
 
@@ -49,7 +49,7 @@ public interface IDiscUtil {
      * @param file File
      * @param content Content
      */
-    public void writeCatch(File file, String content);
+    void writeCatch(File file, String content);
 
     /**
      * Allow to read catch
@@ -57,7 +57,7 @@ public interface IDiscUtil {
      * @param file File
      * @return The string
      */
-    public default String readCatch(File file) {
+    default String readCatch(File file) {
         return read(file);
     }
 
@@ -67,7 +67,7 @@ public interface IDiscUtil {
      * @param string String
      * @return Bytes
      */
-    public default byte[] utf8(String string) {
+    default byte[] utf8(String string) {
         return string.getBytes(StandardCharsets.UTF_8);
     }
 
@@ -77,7 +77,7 @@ public interface IDiscUtil {
      * @param bytes Bytes
      * @return String
      */
-    public default String utf8(byte[] bytes) {
+    default String utf8(byte[] bytes) {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 

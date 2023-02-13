@@ -10,40 +10,40 @@ public interface IModuleInfo {
      *
      * @return the name of the module
      */
-    public String getName();
+    String getName();
 
     /**
      * Return the main class of the module
      *
      * @return the main class of the module
      */
-    public String getMain();
+    String getMain();
 
     /**
      * Return the description of the module
      *
      * @return the description of the module
      */
-    public String getDescription();
+    String getDescription();
 
     /**
      * Return the version of the module
      *
      * @return the version of the module
      */
-    public String getVersion();
+    String getVersion();
 
     /**
      * Return the author if alone
      *
      * @return the author if alone
      */
-    public String getAuthorsInLine();
+    String getAuthorsInLine();
 
     /**
      * Return the authors of the module
      *
      * @return the authors of the module
      */
-    public String[] getAuthors();
+    String[] getAuthors();
 }

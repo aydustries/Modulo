@@ -1,7 +1,8 @@
 package fr.aytronn.moduloapi;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import fr.aytronn.moduloapi.command.ICommandManager;
+import fr.aytronn.moduloapi.config.IPersist;
 import fr.aytronn.moduloapi.modules.IModuleManager;
 import fr.aytronn.moduloapi.mongodb.IMongoService;
 import fr.aytronn.moduloapi.mongodb.MongoConnector;
@@ -10,19 +11,14 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import org.slf4j.Logger;
 
-import java.lang.reflect.Modifier;
-
 public abstract class ModuloApi {
 
     private static ModuloApi instance;
-
-    private final Gson gson;
 
     private IMongoService mongoService;
 
     protected ModuloApi() {
         instance = this;
-        this.gson = new GsonBuilder().setPrettyPrinting().setLenient().disableHtmlEscaping().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).create();
     }
 
     /**
@@ -89,4 +85,18 @@ public abstract class ModuloApi {
      * @return the server discord
      */
     public abstract Server getDiscordServer();
+
+    /**
+     * Useful to get the persist object
+     *
+     * @return the persist object
+     */
+    public abstract IPersist getPersist();
+
+    /**
+     * Useful to get the command manager
+     *
+     * @return the command manager
+     */
+    public abstract ICommandManager getCommandManager();
 }

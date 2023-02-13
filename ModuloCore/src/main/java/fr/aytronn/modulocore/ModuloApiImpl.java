@@ -2,6 +2,8 @@ package fr.aytronn.modulocore;
 
 import com.google.gson.Gson;
 import fr.aytronn.moduloapi.ModuloApi;
+import fr.aytronn.moduloapi.command.ICommandManager;
+import fr.aytronn.moduloapi.config.IPersist;
 import fr.aytronn.moduloapi.modules.IModuleManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
@@ -64,6 +66,26 @@ public class ModuloApiImpl extends ModuloApi {
     @Override
     public Server getDiscordServer() {
         return getModuloCore().getDiscordServer();
+    }
+
+    /**
+     * Useful to get the persist object
+     *
+     * @return the persist object
+     */
+    @Override
+    public IPersist getPersist() {
+        return getModuloCore().getPersist();
+    }
+
+    /**
+     * Useful to get the command manager
+     *
+     * @return the command manager
+     */
+    @Override
+    public ICommandManager getCommandManager() {
+        return getModuloCore().getCommandManager();
     }
 
     public ModuloCore getModuloCore() {
