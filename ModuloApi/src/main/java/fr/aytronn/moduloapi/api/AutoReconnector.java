@@ -7,6 +7,8 @@ import java.util.TimerTask;
 /**
  * This class is useful to auto reconnect the database
  * if the are dead or disconnected
+ *
+ * @author HookWoods
  */
 public abstract class AutoReconnector extends Service {
 

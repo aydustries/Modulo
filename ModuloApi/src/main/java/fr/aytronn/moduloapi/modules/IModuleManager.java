@@ -3,6 +3,7 @@ package fr.aytronn.moduloapi.modules;
 import fr.aytronn.moduloapi.modules.exception.InvalidModuleException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import org.javacord.api.entity.Attachment;
 import org.javacord.api.listener.GloballyAttachableListener;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public interface IModuleManager {
      *
      * @return the loaded modules
      */
-    public ObjectList<IModule> loadModules();
+    ObjectList<IModule> loadModules();
 
     /**
      * Useful to load every modules from a directory
@@ -24,7 +25,7 @@ public interface IModuleManager {
      *
      * @return the loaded module
      */
-    public ObjectList<IModule> loadModules(File directory);
+    ObjectList<IModule> loadModules(File directory);
 
     /**
      * Useful to enable a specific jar file
@@ -35,7 +36,7 @@ public interface IModuleManager {
      *
      * @throws InvalidModuleException if the modules.yml is empty or corrupted
      */
-    public IModule loadModule(File file) throws InvalidModuleException, InvalidModuleException;
+    IModule loadModule(File file) throws InvalidModuleException, InvalidModuleException;
 
     /**
      * Get a module by it's name
@@ -44,21 +45,21 @@ public interface IModuleManager {
      *
      * @return the module
      */
-    public IModule getModule(String module);
+    IModule getModule(String module);
 
     /**
      * Useful to get every enabled modules
      *
      * @return enabled module list
      */
-    public ObjectList<IModule> getEnabledModule();
+    ObjectList<IModule> getEnabledModule();
 
     /**
      * Useful to get every modules (loaded, disabled, enabled)
      *
      * @return every module
      */
-    public Object2ObjectMap<String, IModule> getModules();
+    Object2ObjectMap<String, IModule> getModules();
 
     /**
      * Useful to define a class by it's name
@@ -68,7 +69,7 @@ public interface IModuleManager {
      *
      * @param clazz to be defined
      */
-    public void setClass(final String name, final Class<?> clazz);
+    void setClass(final String name, final Class<?> clazz);
 
     /**
      * Useful to get a class by it's name
@@ -77,7 +78,7 @@ public interface IModuleManager {
      *
      * @return the class if defined
      */
-    public Class<?> getClassByName(final String name);
+    Class<?> getClassByName(final String name);
 
     /**
      * Useful to register a listener in the module
@@ -87,7 +88,7 @@ public interface IModuleManager {
      *
      * @param listener to register
      */
-    public void registerListener(IModule module, GloballyAttachableListener listener);
+    void registerListener(IModule module, GloballyAttachableListener listener);
 
     /**
      * Allow to register a command
@@ -96,7 +97,7 @@ public interface IModuleManager {
      *
      * @param commandClass Command class
      */
-    public void registerCommand(IModule module, Object commandClass);
+    void registerCommand(IModule module, Object commandClass);
 
     /**
      * Useful to avoid memory leak and close
@@ -106,42 +107,42 @@ public interface IModuleManager {
      *
      * @return the class loader
      */
-    public IModuleClassLoader getLoader(final IModule module);
+    IModuleClassLoader getLoader(final IModule module);
 
     /**
      * Useful to get where module are placed
      *
      * @return the file dir of modules
      */
-    public File getModuleDir();
+    File getModuleDir();
 
     /**
      * Useful to get a regex of jar pattern
      *
      * @return the regex pattern of jar file
      */
-    public Pattern getJarPattern();
+    Pattern getJarPattern();
 
     /**
      * Useful to get every loaders
      *
      * @return every module with their class loader
      */
-    public Object2ObjectMap<IModule, IModuleClassLoader> getLoaders();
+    Object2ObjectMap<IModule, IModuleClassLoader> getLoaders();
 
     /**
      * Useful to get every listeners
      *
      * @return every module with their listeners
      */
-    public Object2ObjectMap<IModule, ObjectList<GloballyAttachableListener>> getListeners();
+    Object2ObjectMap<IModule, ObjectList<GloballyAttachableListener>> getListeners();
 
     /**
      * Useful to get every commands
      *
      * @return every module with their commands
      */
-    public Object2ObjectMap<IModule, ObjectList<Object>> getCommands();
+    Object2ObjectMap<IModule, ObjectList<Object>> getCommands();
 
     /**
      * Useful to get every class
@@ -158,4 +159,54 @@ public interface IModuleManager {
      * @return the module
      */
     IModule getModuleFromClass(Class<?> clazz);
+
+    /**
+     * Useful to reload every modules
+     */
+    void reloadModules();
+
+    /**
+     * Reload specific module
+     *
+     * @param module to be reloaded
+     */
+    void reloadModule(IModule module);
+
+    /**
+     * Useful to disable every modules
+     */
+    void disableModules();
+
+    /**
+     * Useful to disable a specific module
+     *
+     * @param module to disable
+     *
+     * @return true if the module was loaded
+     */
+    boolean loadModule(String module);
+
+    /**
+     * Useful to disable a specific module
+     *
+     * @param module to disable
+     */
+    void disableModule(IModule module);
+
+
+    /**
+     * Useful to download a module from an attachment
+     *
+     * @param attachment to download
+     */
+    void downloadModuleFromAttachment(Attachment attachment);
+
+    /**
+     * Useful to delete a module
+     *
+     * @param module to delete
+     *
+     * @return true if the module was deleted
+     */
+    boolean deleteModule(IModule module);
 }

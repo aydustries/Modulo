@@ -1,5 +1,8 @@
 package fr.aytronn.moduloapi.modules.exception;
 
+/**
+ * @author HookWoods
+ */
 public class InvalidDescriptionException extends Exception {
     private static final long serialVersionUID = 5721389122281775896L;
 

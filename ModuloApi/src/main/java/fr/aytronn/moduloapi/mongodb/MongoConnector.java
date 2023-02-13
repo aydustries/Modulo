@@ -3,6 +3,9 @@ package fr.aytronn.moduloapi.mongodb;
 import fr.aytronn.moduloapi.api.Connector;
 import fr.aytronn.moduloapi.mongodb.settings.MongoSettings;
 
+/**
+ * @author HookWoods
+ */
 public class MongoConnector extends Connector<MongoService> {
 
     private static final MongoConnector instance = new MongoConnector();

@@ -6,6 +6,13 @@ import fr.aytronn.moduloapi.ModuloApi;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class is useful to manage the services
+ *
+ * @param <T> Service
+ *
+ * @author HookWoods
+ */
 public abstract class Connector<T extends Service> {
     private final Map<String, T> services = new ConcurrentHashMap<>();
 

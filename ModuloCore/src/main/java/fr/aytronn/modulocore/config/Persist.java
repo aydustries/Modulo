@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * @author HookWoods
+ */
 public class Persist implements IPersist {
 
     private final Gson gson;

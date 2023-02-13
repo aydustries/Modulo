@@ -1,4 +1,4 @@
-# Modulo
+# Modulo [![CI](https://github.com/aytronnn/Modulo/actions/workflows/ci.yml/badge.svg)](https://github.com/aytronnn/Modulo/actions/workflows/ci.yml) [![Latest version](https://shields.io/github/release/aytronnn/Modulo.svg?label=Version&colorB=brightgreen&style=flat-square)](https://github.com/aytronnn/Modulo/releases/latest) [![Javacord Discord server](https://shields.io/discord/281078252599246850.svg?colorB=%237289DA&label=Discord&style=flat-square)](https://discord.gg/nutFJyJDvM)
 Create your bot discord more easily with Modulo. Allows you to add features easily with modules.
 You can see it as a minecraft server with plugins. Modulo will load the modules you added in the modules folder.
 
@@ -8,6 +8,7 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 - [How to deploy](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-deploy)
 - [How To Developers](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-developers)
 - [Basic Usage](#basic-usage)
+- [Credits](#credits)
 
 ## Basic Usage
 
@@ -33,6 +34,10 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 repositories {
     maven {
         url = uri("https://maven.pkg.github.com/aytronnn/Modulo")
+        credentials {
+            username = findProperty("github_username")
+            password = findProperty("github_token")
+        }
     }
 }
 dependencies {
@@ -48,9 +53,6 @@ java {
 ```java
 public class Example extends IModule {
     private static Example instance;
-    private Config config;
-
-    private TorrentManager torrentManager;
 
     @Override
     public void onEnable() {
@@ -61,6 +63,11 @@ public class Example extends IModule {
         registerCommands();
     }
 
+    @Override
+    public void onDisable() {
+        getLogger().info("Shutdown Example...");
+    }
+
     public void registerListeners() {
         registerListener(new ExampleListener());
     }
@@ -69,7 +76,7 @@ public class Example extends IModule {
         registerCommand(new ExampleCommand());
     }
 
-    public static PlexFTH getInstance() {
+    public static Example getInstance() {
         return instance;
     }
 }
@@ -82,15 +89,12 @@ public class Example extends IModule {
 ```java
 public class ExampleCommand {
 
-    @Command(name = "plexfth.clear", subCommand = {"nbMessage"}, subCommandType = {SlashCommandOptionType.DECIMAL}, description = "Clear the channel")
+    @Command(name = "plexfth.clear", subCommandObject = {"nbMessage"}, subCommandType = {SlashCommandOptionType.DECIMAL}, description = "Clear the channel")
     public void clearCommand(CommandArgs arg) {
         //Do some code for clear the channel
         
         //Mandatory to respond to the command
-        arg.getCommandInteraction().createImmediateResponder()
-                .setContent("Clear command")
-                .setFlags(MessageFlag.EPHEMERAL)
-                .respond();
+        arg.reply("Clear command");
     }
 }
 ```
@@ -107,6 +111,7 @@ public class ExampleListener implements MessageCreateListener {
 }
 ```
 
-### Credits
+## Credits
 
 For more information, see the [wiki](https://javacord.org/wiki/basic-tutorials/interactions/commands.html#creating-a-command) of [Javacord](https://github.com/Javacord/Javacord) this is the api I use to make the CoreBot.
+For the module loader the code comes from [@HookWoods](https://github.com/HookWoods)

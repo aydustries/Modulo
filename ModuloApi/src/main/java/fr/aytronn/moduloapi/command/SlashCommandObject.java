@@ -3,19 +3,19 @@ package fr.aytronn.moduloapi.command;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SlashCommand {
+public class SlashCommandObject {
     private final String command;
 
     private String description;
 
-    private final Map<String, SubCommandGroup> subCommandGroups;
+    private final Map<String, SubCommandGroupObject> subCommandGroups;
 
-    public SlashCommand(String command) {
+    public SlashCommandObject(String command) {
         this.command = command;
         this.subCommandGroups = new HashMap<>();
     }
 
-    public SlashCommand(String command, String description) {
+    public SlashCommandObject(String command, String description) {
         this(command);
         this.description = description;
     }
@@ -24,12 +24,12 @@ public class SlashCommand {
         return this.command;
     }
 
-    public Map<String, SubCommandGroup> getSubCommandGroups() {
+    public Map<String, SubCommandGroupObject> getSubCommandGroups() {
         return this.subCommandGroups;
     }
 
-    public void addSubCommandGroup(SubCommandGroup subCommandGroup) {
-        this.subCommandGroups.put(subCommandGroup.getSubCommandGroup(), subCommandGroup);
+    public void addSubCommandGroup(SubCommandGroupObject subCommandGroupObject) {
+        this.subCommandGroups.put(subCommandGroupObject.getSubCommandGroup(), subCommandGroupObject);
     }
 
     public void setDescription(String description) {

@@ -17,6 +17,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarFile;
 
+/**
+ * @author HookWoods
+ */
 public class ModuleClassLoader extends URLClassLoader implements IModuleClassLoader {
 
     private final File dataFolder;

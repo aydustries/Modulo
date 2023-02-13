@@ -6,6 +6,9 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author HookWoods
+ */
 public interface IModuleClassLoader {
 
     /**

@@ -5,6 +5,9 @@ import io.netty.util.concurrent.FastThreadLocalThread;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * @author HookWoods
+ */
 public class ZakaryThreadClass implements ThreadFactory {
 
     private final AtomicInteger threadNumber = new AtomicInteger();

@@ -3,15 +3,19 @@ package fr.aytronn.moduloapi.modules;
 import fr.aytronn.moduloapi.ModuloApi;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.listener.GloballyAttachableListener;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
 
+/**
+ * @author HookWoods
+ */
 public abstract class IModule {
     private IModuleInfo moduleInfo;
     private File dataFolder;
@@ -28,7 +32,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current module info of the module
      *
      * @param moduleInfo of the module
@@ -38,7 +42,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to init the module
      *
      * @param classLoader of the module
@@ -48,7 +52,7 @@ public abstract class IModule {
         try {
             setDataFolder(dataFolder);
             setLoader(classLoader);
-            if (getLogger() == null) setLogger(ModuleLogger.getLogger(getModuleInfo()));
+            if (getLogger() == null) setLogger(ModuloApi.getInstance().getLogger());
 
             onEnable();
             setState(State.ENABLED);
@@ -81,6 +85,11 @@ public abstract class IModule {
     public abstract void onEnable();
 
     /**
+     * Useful to set the data folder of the module
+     */
+    public abstract void onDisable();
+
+    /**
      * Useful to log data to console
      *
      * @return the custom logger of the modules
@@ -92,7 +101,7 @@ public abstract class IModule {
     /**
      * Useful to get access to Bukkit api
      *
-     * @return the api server of the ZakaryAPI
+     * @return the api server of the ModuloAPI
      */
     public DiscordApi getDiscordApi() {
         return ModuloApi.getInstance().getDiscordApi();
@@ -111,7 +120,7 @@ public abstract class IModule {
      */
     public File saveResource(String jarResource, File destinationFolder, boolean replace, boolean noPath) {
         if (jarResource == null || jarResource.equals("")) {
-            throw new IllegalArgumentException("ZakaryAPI - Modules: ResourcePath cannot be null or empty");
+            throw new IllegalArgumentException("ModuloAPI - Modules: ResourcePath cannot be null or empty");
         }
 
         jarResource = jarResource.replace( "\\", "/");
@@ -120,8 +129,7 @@ public abstract class IModule {
             if (jarConfig != null) {
                 try (InputStream in = jar.getInputStream(jarConfig)) {
                     if (in == null) {
-                        throw new IllegalArgumentException(
-                                "ZakaryAPI - Modules: The embedded resource '" + jarResource + "' cannot be found in " + jar.getName());
+                        throw new IllegalArgumentException("ModuloAPI - Modules: The embedded resource '" + jarResource + "' cannot be found in " + jar.getName());
                     }
                     // There are two options, use the path of the resource or not
                     File outFile = new File(destinationFolder, jarResource);
@@ -131,16 +139,16 @@ public abstract class IModule {
                     // Make any dirs that need to be made
                     outFile.getParentFile().mkdirs();
                     if (!outFile.exists() || replace) {
-                        java.nio.file.Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                     return outFile;
                 }
             } else {
                 // No file in the jar
-                throw new IllegalArgumentException("ZakaryAPI - Modules: The embedded resource '" + jarResource + "' cannot be found in " + jar.getName());
+                throw new IllegalArgumentException("ModuloAPI - Modules: The embedded resource '" + jarResource + "' cannot be found in " + jar.getName());
             }
         } catch (IOException e) {
-            getLogger().severe("ZakaryAPI - Modules: Could not save from jar file. From " + jarResource + " to " + destinationFolder.getAbsolutePath());
+            getLogger().error("ModuloAPI - Modules: Could not save from jar file. From " + jarResource + " to " + destinationFolder.getAbsolutePath());
         }
         return null;
     }
@@ -165,7 +173,7 @@ public abstract class IModule {
      */
     public InputStream getResource(String jarResource) {
         if (jarResource == null || jarResource.equals("")) {
-            throw new IllegalArgumentException("ZakaryAPI - Modules: ResourcePath cannot be null or empty");
+            throw new IllegalArgumentException("ModuloAPI - Modules: ResourcePath cannot be null or empty");
         }
 
         jarResource = jarResource.replace( "\\", "/");
@@ -177,7 +185,7 @@ public abstract class IModule {
                 }
             }
         } catch (IOException e) {
-            ModuloApi.getInstance().getLogger().error("ZakaryAPI - Modules: Could not open from jar file. " + jarResource);
+            ModuloApi.getInstance().getLogger().error("ModuloAPI - Modules: Could not open from jar file. " + jarResource);
         }
         return null;
     }
@@ -185,7 +193,7 @@ public abstract class IModule {
     /**
      * Useful to directly access to the api
      *
-     * @return the ZakaryAPI instance
+     * @return the ModuloAPI instance
      */
     public ModuloApi getAPI() {
         return ModuloApi.getInstance();
@@ -241,12 +249,12 @@ public abstract class IModule {
      *
      * @param commandClass to register to the module
      */
-    public void registerCommands(Object commandClass) {
+    public void registerCommand(Object commandClass) {
         ModuloApi.getInstance().getModuleManager().registerCommand(this, commandClass);
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current data folder of the module
      *
      * @param dataFolder of the folder
@@ -256,7 +264,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current class loader of the module
      *
      * @param loader of the class loader
@@ -266,7 +274,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current state of the module
      *
      * @param state of the class loader
@@ -276,7 +284,7 @@ public abstract class IModule {
     }
 
     /**
-     * ZAKARYCORE ONLY
+     * ModuloAPI ONLY
      * Useful to set the current logger of the module
      *
      * @param logger of the logger

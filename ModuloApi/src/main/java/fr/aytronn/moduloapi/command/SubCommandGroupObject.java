@@ -5,29 +5,31 @@ import org.javacord.api.interaction.SlashCommandOptionType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubCommandGroup {
+public class SubCommandGroupObject {
 
     private final String subCommandGroup;
 
     private String description;
 
-    private final Map<String, SubCommand> subCommands;
+    private final Map<String, SubCommandObject> subCommands;
 
     private String[] subCommandArgs;
 
     private SlashCommandOptionType[] subCommandArgsType;
 
-    public SubCommandGroup(String subCommandGroup) {
+    private boolean required = true;
+
+    public SubCommandGroupObject(String subCommandGroup) {
         this.subCommandGroup = subCommandGroup;
         this.subCommands = new HashMap<>();
     }
 
-    public SubCommandGroup(String command, String description) {
+    public SubCommandGroupObject(String command, String description) {
         this(command);
         this.description = description;
     }
 
-    public SubCommandGroup(String command, String description, String[] subCommandArgs, SlashCommandOptionType[] subCommandArgsType) {
+    public SubCommandGroupObject(String command, String description, String[] subCommandArgs, SlashCommandOptionType[] subCommandArgsType) {
         this(command);
         this.description = description;
         this.subCommandArgs = subCommandArgs;
@@ -38,12 +40,12 @@ public class SubCommandGroup {
         return this.subCommandGroup;
     }
 
-    public Map<String, SubCommand> getSubCommands() {
+    public Map<String, SubCommandObject> getSubCommands() {
         return this.subCommands;
     }
 
-    public void addSubCommand(SubCommand subCommand) {
-        this.subCommands.put(subCommand.getSubCommand(), subCommand);
+    public void addSubCommand(SubCommandObject subCommandObject) {
+        this.subCommands.put(subCommandObject.getSubCommand(), subCommandObject);
     }
 
     public String getDescription() {
@@ -51,6 +53,14 @@ public class SubCommandGroup {
             return "Empty description";
         }
         return this.description;
+    }
+
+    public boolean isRequired() {
+        return this.required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
     public String[] getSubCommandArgs() {

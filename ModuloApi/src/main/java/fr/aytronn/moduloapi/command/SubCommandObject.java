@@ -2,7 +2,7 @@ package fr.aytronn.moduloapi.command;
 
 import org.javacord.api.interaction.SlashCommandOptionType;
 
-public class SubCommand {
+public class SubCommandObject {
 
     private final String subCommand;
 
@@ -12,16 +12,18 @@ public class SubCommand {
 
     private SlashCommandOptionType[] subCommandArgsType;
 
-    public SubCommand(String subCommand) {
+    private boolean required = true;
+
+    public SubCommandObject(String subCommand) {
         this.subCommand = subCommand;
     }
 
-    public SubCommand(String command, String description) {
+    public SubCommandObject(String command, String description) {
         this(command);
         this.description = description;
     }
 
-    public SubCommand(String command, String description, String[] subCommandArgs, SlashCommandOptionType[] subCommandArgsType) {
+    public SubCommandObject(String command, String description, String[] subCommandArgs, SlashCommandOptionType[] subCommandArgsType) {
         this(command);
         this.description = description;
         this.subCommandArgs = subCommandArgs;
@@ -37,6 +39,14 @@ public class SubCommand {
             return "Empty description";
         }
         return this.description;
+    }
+
+    public boolean isRequired() {
+        return this.required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
     public SlashCommandOptionType[] getSubCommandArgsType() {

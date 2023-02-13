@@ -3,6 +3,9 @@ package fr.aytronn.moduloapi.config;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * @author HookWoods
+ */
 public interface IDiscUtil {
     /**
      * Read Bytes

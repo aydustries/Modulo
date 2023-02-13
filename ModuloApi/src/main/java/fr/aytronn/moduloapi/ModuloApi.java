@@ -7,6 +7,7 @@ import fr.aytronn.moduloapi.mongodb.IMongoService;
 import fr.aytronn.moduloapi.mongodb.MongoConnector;
 import fr.aytronn.moduloapi.mongodb.MongoService;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.server.Server;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Modifier;
@@ -81,4 +82,11 @@ public abstract class ModuloApi {
      * @return the module manager
      */
     public abstract IModuleManager getModuleManager();
+
+    /**
+     * Useful to get the server discord
+     *
+     * @return the server discord
+     */
+    public abstract Server getDiscordServer();
 }

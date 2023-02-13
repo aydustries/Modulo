@@ -1,15 +1,13 @@
-package fr.aytronn.moduloapi.modules.exception;
+package fr.aytronn.moduloapi.exceptions;
 
-/**
- * @author HookWoods
- */
-public class InvalidModuleException extends Throwable {
+public class ServerNotFoundException extends Exception {
+
     /**
      * Allow to return a error
      *
      * @param cause Cause of error
      */
-    public InvalidModuleException(Throwable cause) {
+    public ServerNotFoundException(Throwable cause) {
         super(cause);
     }
 
@@ -19,7 +17,7 @@ public class InvalidModuleException extends Throwable {
      * @param message Message of error
      * @param cause Cause of error
      */
-    public InvalidModuleException(String message, Throwable cause) {
+    public ServerNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -28,8 +26,7 @@ public class InvalidModuleException extends Throwable {
      *
      * @param message Message of error
      */
-    public InvalidModuleException(String message) {
+    public ServerNotFoundException(String message) {
         super(message);
     }
-
 }
