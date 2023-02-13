@@ -72,11 +72,11 @@ publishing {
             pom {
                 name.set("Modulo")
                 description.set("You can see it as a minecraft server with plugins. Modulo will load the modules you added in the modules folder.")
-                url.set("https://github.com/aytronnn/Modulo")
+                url.set("https://github.com/aydustries/Modulo")
                 licenses {
                     license {
                         name.set("GNU General Public License v3.0")
-                        url.set("https://github.com/aytronnn/Modulo/blob/master/LICENSE")
+                        url.set("https://github.com/aydustries/Modulo/blob/master/LICENSE")
                     }
                 }
                 developers {
