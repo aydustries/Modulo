@@ -16,7 +16,7 @@ public interface IPersist {
      *
      * @return the name
      */
-    public String getName(Class<?> clazz);
+    String getName(Class<?> clazz);
 
     /**
      * This function is used to get a
@@ -26,7 +26,7 @@ public interface IPersist {
      *
      * @return the name
      */
-    public default String getName(Object object) {
+    default String getName(Object object) {
         return getName(object.getClass());
     }
 
@@ -38,7 +38,7 @@ public interface IPersist {
      *
      * @return the name
      */
-    public default String getName(Type type) {
+    default String getName(Type type) {
         return getName(type.getClass());
     }
 
@@ -50,7 +50,7 @@ public interface IPersist {
      *
      * @return the file
      */
-    public File getFile(String name);
+    File getFile(String name);
 
     /**
      * This function is used to get a
@@ -60,7 +60,7 @@ public interface IPersist {
      *
      * @return the file
      */
-    public default File getFile(Class<?> objectClass) {
+    default File getFile(Class<?> objectClass) {
         return getFile(getName(objectClass));
     }
 
@@ -72,7 +72,7 @@ public interface IPersist {
      *
      * @return the file
      */
-    public default File getFile(Object object) {
+    default File getFile(Object object) {
         return getFile(getName(object));
     }
 
@@ -84,7 +84,7 @@ public interface IPersist {
      *
      * @return the file
      */
-    public default File getFile(Type type) {
+    default File getFile(Type type) {
         return getFile(getName(type));
     }
 
@@ -96,7 +96,7 @@ public interface IPersist {
      *
      * @param file file name to save
      */
-    public void save(Object instance, File file);
+    void save(Object instance, File file);
 
     /**
      * This function is used to save the instance of a class
@@ -104,7 +104,7 @@ public interface IPersist {
      *
      * @param instance of the class to save
      */
-    public default void save(Object instance) {
+    default void save(Object instance) {
         save(instance, getFile(instance));
     }
 
@@ -116,7 +116,7 @@ public interface IPersist {
      *
      * @return the loaded class
      */
-    public default <T> T basicLoad(Class<T> tClass) {
+    default <T> T basicLoad(Class<T> tClass) {
         return load(tClass, getFile(tClass));
     }
 
@@ -130,9 +130,9 @@ public interface IPersist {
      *
      * @return the loaded class
      */
-    public <T> T load(Class<T> tClass, File file);
+    <T> T load(Class<T> tClass, File file);
 
-    public String load(File file);
+    String load(File file);
 
     /**
      * This function is used to load a class
@@ -144,7 +144,7 @@ public interface IPersist {
      *
      * @return the loaded class
      */
-    public <T> T load(Class<T> tClass, String content);
+    <T> T load(Class<T> tClass, String content);
 
     /**
      * This function is used to load a class
@@ -155,7 +155,7 @@ public interface IPersist {
      *
      * @return the loaded class
      */
-    public default <T> T load(Class<T> tClass) {
+    default <T> T load(Class<T> tClass) {
         return load(tClass, getFile(tClass));
     }
 }

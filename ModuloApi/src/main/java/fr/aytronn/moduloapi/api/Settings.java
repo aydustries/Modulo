@@ -11,6 +11,6 @@ public interface Settings {
      *
      * @return the factory object of the credentials
      */
-    public Object toFactory();
+    Object toFactory();
 
 }

@@ -5,12 +5,15 @@
 # This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
 
-name: Gradle Package
+name: Publish Nexus
 
 on:
   push:
     tags:
       - '*'
+    branches:
+      - develop
+      - master
 
 jobs:
   build:
@@ -36,18 +39,9 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean shadowJar
 
-    - name: Login to docker
-      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-    - name: Build and Push docker image
+    - name: Publish to Nexus
       env:
+        NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         PROJECT_VERSION: ${{ github.ref_name }}
-      run: ./gradlew dockerPushDockerHub
-
-    - name: Publish to GitHub Packages
-      env:
-        USERNAME: ${{ secrets.USERNAME }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PROJECT_VERSION: ${{ github.ref_name }}
-        REPO_URL: ${{ secrets.REPO_URL }}
       run: ./gradlew publish

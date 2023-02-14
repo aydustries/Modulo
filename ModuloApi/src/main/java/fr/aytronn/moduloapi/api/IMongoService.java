@@ -13,7 +13,7 @@ public interface IMongoService {
      *
      * @return the client connected to the database or null if not connected
      */
-    public MongoClient getMongoClient();
+    MongoClient getMongoClient();
 
     /**
      * Gets a specific database instance
@@ -22,24 +22,24 @@ public interface IMongoService {
      *
      * @return the database
      */
-    public MongoDatabase getDatabase(String name);
+    MongoDatabase getDatabase(String name);
 
     /**
      * Get Zakary database
      *
      * @return Zakary database
      */
-    public MongoDatabase getDatabase();
+    MongoDatabase getDatabase();
 
     /**
      * Used to remove database connection
      */
-    public void remove();
+    void remove();
 
     /**
      * Useful to know if a database is connected
      *
      * @return the connection state to the database
      */
-    public boolean isConnected();
+    boolean isConnected();
 }

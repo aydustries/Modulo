@@ -1,3 +1,4 @@
+import org.gradle.internal.impldep.org.bouncycastle.cms.RecipientId.password
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -56,27 +57,28 @@ java {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri(project.findProperty("repoUrl") as String? ?: System.getenv("REPO_URL") ?: "")
+            name = "aydustries"
+            url = uri("http://nexus.aytronn.com/repository/aydustries/")
+            isAllowInsecureProtocol = true
             credentials {
-                username = project.findProperty("github_username") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("github_token") as String? ?: System.getenv("TOKEN")
+                username = project.findProperty("nexus_username") as String? ?: System.getenv("NEXUS_USERNAME") ?: ""
+                password = project.findProperty("nexus_password") as String? ?: System.getenv("NEXUS_PASSWORD") ?: ""
             }
         }
     }
     publications {
-        register<MavenPublication>("gpr") {
+        register<MavenPublication>("mavenJava") {
             version = System.getenv("PROJECT_VERSION") ?: (findProperty("projectVersion").toString() ?: "")
             groupId = "fr.aytronn"
             artifactId = "modulo-api"
             pom {
                 name.set("Modulo")
                 description.set("You can see it as a minecraft server with plugins. Modulo will load the modules you added in the modules folder.")
-                url.set("https://github.com/aytronnn/Modulo")
+                url.set("https://github.com/aydustries/Modulo")
                 licenses {
                     license {
                         name.set("GNU General Public License v3.0")
-                        url.set("https://github.com/aytronnn/Modulo/blob/master/LICENSE")
+                        url.set("https://github.com/aydustries/Modulo/blob/master/LICENSE")
                     }
                 }
                 developers {

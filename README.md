@@ -1,12 +1,12 @@
-# Modulo [![CI](https://github.com/aytronnn/Modulo/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/aytronnn/Modulo/actions/workflows/ci.yml) [![DOCKER HUB](https://github.com/aytronnn/Modulo/actions/workflows/publish-docker-hub.yml/badge.svg?branch=master)](https://hub.docker.com/repository/docker/aytronn/modulo/general) [![Latest version](https://shields.io/github/release/aytronnn/Modulo.svg?label=Version&colorB=brightgreen&style=flat-square)](https://github.com/aytronnn/Modulo/releases/latest) [![Javacord Discord server](https://shields.io/discord/281078252599246850.svg?colorB=%237289DA&label=Discord&style=flat-square)](https://discord.gg/nutFJyJDvM)
+# Modulo [![CI](https://github.com/aydustries/Modulo/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/aydustries/Modulo/actions/workflows/ci.yml) [![DOCKER HUB](https://github.com/aydustries/Modulo/actions/workflows/publish-docker-hub.yml/badge.svg?branch=master)](https://hub.docker.com/repository/docker/aytronn/modulo/general) [![Publish Nexus](https://github.com/aydustries/Modulo/actions/workflows/gradle-publish.yml/badge.svg?branch=master)](http://nexus.aytronn.com/#browse/browse:aydustries:fr%2Faytronn%2Fmodulo-api%2Fmaster) [![Latest version](https://shields.io/github/release/aydustries/Modulo.svg?label=Version&colorB=brightgreen&style=flat-square)](https://github.com/aydustries/Modulo/releases/latest) [![Discord server](https://shields.io/discord/281078252599246850.svg?colorB=%237289DA&label=Discord&style=flat-square)](https://discord.gg/nutFJyJDvM)
 Create your bot discord more easily with Modulo. Allows you to add features easily with modules.
 You can see it as a minecraft server with plugins. Modulo will load the modules you added in the modules folder.
 
 ## Summary
 
-- [How to build](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-build)
-- [How to deploy](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-deploy)
-- [How To Developers](https://github.com/aytronnn/Modulo/wiki/Modulo#how-to-developers)
+- [How to build](https://github.com/aydustries/Modulo/wiki/Modulo#how-to-build)
+- [How to deploy](https://github.com/aydustries/Modulo/wiki/Modulo#how-to-deploy)
+- [How To Developers](https://github.com/aydustries/Modulo/wiki/Modulo#how-to-developers)
 - [Basic Usage](#basic-usage)
 - [Credits](#credits)
 
@@ -15,7 +15,7 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 ### How to add the dependency
 ```xml
 <repository>
-    <url>"https://maven.pkg.github.com/aytronnn/Modulo"</url>
+    <url>"http://nexus.aytronn.com/repository/aydustries/"</url>
 </repository>
 ```
 * Artifact Information:
@@ -33,11 +33,9 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/aytronnn/Modulo")
-        credentials {
-            username = findProperty("github_username")
-            password = findProperty("github_token")
-        }
+        name = "aydustries"
+        url = uri("http://nexus.aytronn.com/repository/aydustries/")
+        allowInsecureProtocol = true
     }
 }
 dependencies {

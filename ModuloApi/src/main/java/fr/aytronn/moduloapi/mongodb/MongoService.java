@@ -21,7 +21,7 @@ public class MongoService extends AutoReconnector implements IMongoService {
     @Override
     public void remove() {
         if (isDead()) {
-            ModuloApi.getInstance().getLogger().warn("DatabaseAPI - MongoDB: The service is already dead.");
+            ModuloApi.getInstance().getLogger().warn("MongoDB: The service is already dead.");
             return;
         }
         final long time = System.currentTimeMillis();
@@ -32,12 +32,12 @@ public class MongoService extends AutoReconnector implements IMongoService {
             getMongoClient().close();
             this.mongoClient = null;
         } catch (Exception error) {
-            ModuloApi.getInstance().getLogger().warn("DatabaseAPI - MongoDB: Something gone wrong while trying to close connection.");
+            ModuloApi.getInstance().getLogger().warn("MongoDB: Something gone wrong while trying to close connection.");
             error.printStackTrace();
             return;
         }
         MongoConnector.getInstance().getServices().remove(this.getName());
-        ModuloApi.getInstance().getLogger().info("DatabaseAPI - MongoDB: Service disconnected ({} ms).", System.currentTimeMillis() - time);
+        ModuloApi.getInstance().getLogger().info("MongoDB: Service disconnected ({} ms).", System.currentTimeMillis() - time);
     }
 
     @Override
@@ -59,10 +59,10 @@ public class MongoService extends AutoReconnector implements IMongoService {
         try {
             final long time = System.currentTimeMillis();
             this.mongoClient = (MongoClient) getSettings().toFactory();
-            ModuloApi.getInstance().getLogger().info("DatabaseAPI - MongoDB: Successfully (re)connected to the service ({} ms).", System.currentTimeMillis() - time);
+            ModuloApi.getInstance().getLogger().info("MongoDB: Successfully (re)connected to the service ({} ms).", System.currentTimeMillis() - time);
         } catch (Exception error) {
             error.printStackTrace();
-            ModuloApi.getInstance().getLogger().warn("DatabaseAPI - MongoDB: Unable to connect to the service ({}).", error.getMessage());
+            ModuloApi.getInstance().getLogger().warn("MongoDB: Unable to connect to the service ({}).", error.getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ public class MongoService extends AutoReconnector implements IMongoService {
 
     @Override
     public MongoDatabase getDatabase() {
-        return getDatabase("Zakary");
+        return getDatabase("Modulo");
     }
 
     @Override

@@ -9,10 +9,12 @@ public class SlashCommandObject {
     private String description;
 
     private final Map<String, SubCommandGroupObject> subCommandGroups;
+    private final Map<String, SubCommandObject> subCommand;
 
     public SlashCommandObject(String command) {
         this.command = command;
         this.subCommandGroups = new HashMap<>();
+        this.subCommand = new HashMap<>();
     }
 
     public SlashCommandObject(String command, String description) {
@@ -30,6 +32,14 @@ public class SlashCommandObject {
 
     public void addSubCommandGroup(SubCommandGroupObject subCommandGroupObject) {
         this.subCommandGroups.put(subCommandGroupObject.getSubCommandGroup(), subCommandGroupObject);
+    }
+
+    public void addSubCommand(SubCommandObject subCommandObject) {
+        this.subCommand.put(subCommandObject.getSubCommand(), subCommandObject);
+    }
+
+    public Map<String, SubCommandObject> getSubCommand() {
+        return this.subCommand;
     }
 
     public void setDescription(String description) {

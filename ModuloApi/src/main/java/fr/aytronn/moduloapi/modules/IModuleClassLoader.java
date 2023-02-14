@@ -20,21 +20,21 @@ public interface IModuleClassLoader {
      *
      * @throws InvalidDescriptionException if module doesn't contains or corrupted modules.yml
      */
-    public IModuleInfo getDescription(File file) throws InvalidDescriptionException, InvalidDescriptionException;
+    IModuleInfo getDescription(File file) throws InvalidDescriptionException, InvalidDescriptionException;
 
     /**
      * Useful to check if a module contains a class
      *
      * @return the java classes of the module
      */
-    public ObjectSet<String> getClasses();
+    ObjectSet<String> getClasses();
 
     /**
      * Useful to get the module
      *
      * @return the module class
      */
-    public IModule getModule();
+    IModule getModule();
 
     /**
      * Useful to save data or libs to a module folder
@@ -42,7 +42,7 @@ public interface IModuleClassLoader {
      *
      * @return the data folder of the module
      */
-    public File getDataFolder();
+    File getDataFolder();
 
     /**
      * Useful cause bukkit class loader
@@ -50,7 +50,7 @@ public interface IModuleClassLoader {
      *
      * @return the java class loader
      */
-    public ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
     /**
      * Useful to get or load a Class of a module
@@ -60,7 +60,7 @@ public interface IModuleClassLoader {
      *
      * @return the class if find
      */
-    public Class<?> findClass(String name, boolean checkGlobal);
+    Class<?> findClass(String name, boolean checkGlobal);
 
     /**
      * Useful to close the ClassLoader
@@ -68,6 +68,6 @@ public interface IModuleClassLoader {
      *
      * @throws IOException if the module is corrupted
      */
-    public void close() throws IOException;
+    void close() throws IOException;
 
 }
