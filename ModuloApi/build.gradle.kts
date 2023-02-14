@@ -1,3 +1,4 @@
+import org.gradle.internal.impldep.org.bouncycastle.cms.RecipientId.password
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -56,16 +57,17 @@ java {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri(project.findProperty("repoUrl") as String? ?: System.getenv("REPO_URL") ?: "")
+            name = "aydustries"
+            url = uri("http://nexus.aytronn.com/repository/aydustries/")
+            isAllowInsecureProtocol = true
             credentials {
-                username = project.findProperty("github_username") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("github_token") as String? ?: System.getenv("TOKEN")
+                username = project.findProperty("nexus_username") as String? ?: System.getenv("NEXUS_USERNAME") ?: ""
+                password = project.findProperty("nexus_password") as String? ?: System.getenv("NEXUS_PASSWORD") ?: ""
             }
         }
     }
     publications {
-        register<MavenPublication>("gpr") {
+        register<MavenPublication>("mavenJava") {
             version = System.getenv("PROJECT_VERSION") ?: (findProperty("projectVersion").toString() ?: "")
             groupId = "fr.aytronn"
             artifactId = "modulo-api"
