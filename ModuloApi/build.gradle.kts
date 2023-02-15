@@ -58,8 +58,7 @@ publishing {
     repositories {
         maven {
             name = "aydustries"
-            url = uri("http://nexus.aytronn.com/repository/aydustries/")
-            isAllowInsecureProtocol = true
+            url = uri("https://nexus.aytronn.com/repository/aydustries/")
             credentials {
                 username = project.findProperty("nexus_username") as String? ?: System.getenv("NEXUS_USERNAME") ?: ""
                 password = project.findProperty("nexus_password") as String? ?: System.getenv("NEXUS_PASSWORD") ?: ""
