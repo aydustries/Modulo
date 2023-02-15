@@ -25,9 +25,9 @@ public interface IMongoService {
     MongoDatabase getDatabase(String name);
 
     /**
-     * Get Zakary database
+     * Get Modulo database
      *
-     * @return Zakary database
+     * @return Modulo database
      */
     MongoDatabase getDatabase();
 

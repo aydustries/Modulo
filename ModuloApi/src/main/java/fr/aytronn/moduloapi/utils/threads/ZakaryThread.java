@@ -27,38 +27,97 @@ public enum ZakaryThread {
         }
     }
 
+    /**
+     * Get the executor service
+     *
+     * @return The executor service
+     */
     public ExecutorService get() {
         return this.executor;
     }
 
+    /**
+     * Stop the scheduled executor service
+     */
     public void stop() {
         this.executor.shutdown();
     }
 
+    /**
+     * Submit a task
+     *
+     * @param runnable The task to submit
+     *
+     * @return The future of the task
+     */
     public Future<?> submit(Runnable runnable) {
         return this.executor.submit(runnable);
     }
 
+    /**
+     * Submit a task
+     *
+     * @param runnable The task to submit
+     *
+     * @return The future of the task
+     */
     public Future<?> submit(Callable<?> runnable) {
         return this.executor.submit(runnable);
     }
 
+    /**
+     * Execute a task
+     *
+     * @param runnable The task to execute
+     */
     public void execute(Runnable runnable) {
         this.executor.execute(runnable);
     }
 
+    /**
+     * Schedule a task to be executed after a delay
+     *
+     * @param cmd      The task to execute
+     * @param time     The delay
+     * @param timeUnit The time unit
+     *
+     * @return The future of the task
+     */
     public ScheduledFuture<?> scheduleLater(Runnable cmd, long time, TimeUnit timeUnit) {
         return ((ScheduledExecutorService) this.executor).schedule(cmd, time, timeUnit);
     }
 
+    /**
+     * Schedule a task to be executed repeatedly
+     *
+     * @param cmd      The task to execute
+     * @param initial  The initial delay
+     * @param time     The delay
+     * @param timeUnit The time unit
+     *
+     * @return The future of the task
+     */
     public ScheduledFuture<?> scheduleRepeated(Runnable cmd, long initial, long time, TimeUnit timeUnit) {
         return ((ScheduledExecutorService) this.executor).scheduleAtFixedRate(cmd, initial, time, timeUnit);
     }
 
+    /**
+     * Schedule a task to be executed after a delay
+     *
+     * @param cmd      The task to execute
+     * @param initial  The initial delay
+     * @param time     The delay
+     * @param timeUnit The time unit
+     *
+     * @return The future of the task
+     */
     public ScheduledFuture<?> scheduleDelay(Runnable cmd, long initial, long time, TimeUnit timeUnit) {
         return ((ScheduledExecutorService) this.executor).scheduleWithFixedDelay(cmd, initial, time, timeUnit);
     }
 
+    /**
+     * Shutdown the thread
+     */
     public void shutdown() {
         this.executor.shutdown();
         while (!this.executor.isTerminated()) {
@@ -71,6 +130,9 @@ public enum ZakaryThread {
         }
     }
 
+    /**
+     * Shutdown all threads
+     */
     public static void shutdownAll() {
         for (final ZakaryThread thread : values()) {
             thread.shutdown();

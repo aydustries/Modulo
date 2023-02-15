@@ -45,3 +45,28 @@ jobs:
         NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         PROJECT_VERSION: ${{ github.ref_name }}
       run: ./gradlew publish
+
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        known_hosts: unnecessary
+
+    - name: Adding Known Hosts
+      run: ssh-keyscan -p ${{ secrets.SSH_PORT}} -H ${{ secrets.MODULO_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deplay Javadoc
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.MODULO_HOST }}
+        username: debian
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd javadoc/javadoc/
+          rm -rf ${{ github.ref_name }}
+          mkdir ${{ github.ref_name }}
+          cd ${{ github.ref_name }}
+          wget 'https://nexus.aytronn.com/repository/aydustries/fr%2Faytronn%2Fmodulo-api%2F${{ github.ref_name }}%2Fmodulo-api-${{ github.ref_name }}-javadoc.jar' -O ${{ github.ref_name }}.jar
+          unzip ${{ github.ref_name }}.jar
+          rm ${{ github.ref_name }}.jar

@@ -46,6 +46,11 @@ public abstract class AutoReconnector extends Service {
         };
     }
 
+    /**
+     * Useful to know if the service should fall back
+     *
+     * @return true if the service should fall back, false otherwise
+     */
     public boolean shouldFallBack() {
         return !isConnected();
     }
