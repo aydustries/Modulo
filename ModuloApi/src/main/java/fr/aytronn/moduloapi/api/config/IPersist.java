@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.config;
+package fr.aytronn.moduloapi.api.config;
 
 import java.io.File;
 import java.lang.reflect.Type;

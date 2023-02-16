@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.command;
+package fr.aytronn.moduloapi.object.command;
 
 import java.util.HashMap;
 import java.util.Map;

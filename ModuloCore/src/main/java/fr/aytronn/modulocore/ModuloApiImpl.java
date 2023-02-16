@@ -2,9 +2,10 @@ package fr.aytronn.modulocore;
 
 import com.google.gson.Gson;
 import fr.aytronn.moduloapi.ModuloApi;
-import fr.aytronn.moduloapi.command.ICommandManager;
-import fr.aytronn.moduloapi.config.IPersist;
-import fr.aytronn.moduloapi.modules.IModuleManager;
+import fr.aytronn.moduloapi.api.action.IActionManager;
+import fr.aytronn.moduloapi.api.command.ICommandManager;
+import fr.aytronn.moduloapi.api.config.IPersist;
+import fr.aytronn.moduloapi.api.module.IModuleManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import org.slf4j.Logger;
@@ -86,6 +87,16 @@ public class ModuloApiImpl extends ModuloApi {
     @Override
     public ICommandManager getCommandManager() {
         return getModuloCore().getCommandManager();
+    }
+
+    /**
+     * Useful to get the action manager
+     *
+     * @return the action manager
+     */
+    @Override
+    public IActionManager getActionManager() {
+        return getModuloCore().getActionManager();
     }
 
     public ModuloCore getModuloCore() {

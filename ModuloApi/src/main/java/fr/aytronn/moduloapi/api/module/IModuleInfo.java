@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.modules;
+package fr.aytronn.moduloapi.api.module;
 
 /**
  * @author HookWoods

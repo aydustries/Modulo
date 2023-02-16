@@ -1,8 +1,8 @@
 package fr.aytronn.modulocore.commands;
 
-import fr.aytronn.moduloapi.command.Command;
-import fr.aytronn.moduloapi.command.CommandArgs;
-import fr.aytronn.moduloapi.modules.IModule;
+import fr.aytronn.moduloapi.api.command.Command;
+import fr.aytronn.moduloapi.api.command.CommandArgs;
+import fr.aytronn.moduloapi.api.module.IModule;
 import fr.aytronn.modulocore.ModuloCore;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.ActionRow;
@@ -67,10 +67,10 @@ public class CoreCommand {
             new MessageBuilder()
                     .setEmbed(embed)
                     .addComponents(ActionRow.of(
-                            Button.success("start@" + module.getModuleInfo().getName(), "Start"),
-                            Button.secondary("reload@" + module.getModuleInfo().getName(), "Reload"),
-                            Button.danger("stop@" + module.getModuleInfo().getName(), "Stop"),
-                            Button.danger("delete@" + module.getModuleInfo().getName(), "Delete")
+                            Button.success("start@@" + module.getModuleInfo().getName(), "Start"),
+                            Button.secondary("reload@@" + module.getModuleInfo().getName(), "Reload"),
+                            Button.danger("stop@@" + module.getModuleInfo().getName(), "Stop"),
+                            Button.danger("delete@@" + module.getModuleInfo().getName(), "Delete")
                     )).send(args.getChannel().get());
         });
 

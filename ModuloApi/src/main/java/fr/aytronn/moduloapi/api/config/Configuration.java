@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.config;
+package fr.aytronn.moduloapi.api.config;
 
 public class Configuration {
     private String mongoUri = "";

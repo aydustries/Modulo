@@ -35,9 +35,7 @@ You can see it as a minecraft server with plugins. Modulo will load the modules 
 ```kotlin
 repositories {
     maven {
-        name = "aydustries"
         url = uri("http://nexus.aytronn.com/repository/aydustries/")
-        allowInsecureProtocol = true
     }
 }
 dependencies {
@@ -76,6 +74,10 @@ public class Example extends IModule {
         registerCommand(new ExampleCommand());
     }
 
+    public void registerActions() {
+        registerAction(new ExampleAction());
+    }
+
     public static Example getInstance() {
         return instance;
     }
@@ -95,6 +97,33 @@ public class ExampleCommand {
         
         //Mandatory to respond to the command
         arg.reply("Clear command");
+    }
+}
+```
+
+### Create action response
+
+```java
+public class ExampleAction {
+    
+    public ExampleAction(TextChannel channel) {
+        new MessageBuilder()
+                .setContent("Content example")
+                .addComponents(ActionRow.of(
+                        Button.success("start@@args1@@args2@@...", "Start example")
+                )).send(channel);
+    }
+
+    @Command(customId = "start")
+    public void action(ActionArgs args) {
+        //Do some code for clear the channel
+        
+        System.out.println(args.getArgs().get(0)); //Will print "args1"
+        System.out.println(args.getArgs().get(1)); //Will print "args2"
+        System.out.println(args.getArgs().get(2)); //Will print "..."
+        
+        //Mandatory to respond to the action
+        arg.reply("Start action");
     }
 }
 ```

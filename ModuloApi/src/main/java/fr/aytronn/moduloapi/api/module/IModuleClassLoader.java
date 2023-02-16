@@ -1,6 +1,6 @@
-package fr.aytronn.moduloapi.modules;
+package fr.aytronn.moduloapi.api.module;
 
-import fr.aytronn.moduloapi.modules.exception.InvalidDescriptionException;
+import fr.aytronn.moduloapi.exceptions.module.InvalidDescriptionException;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 import java.io.File;

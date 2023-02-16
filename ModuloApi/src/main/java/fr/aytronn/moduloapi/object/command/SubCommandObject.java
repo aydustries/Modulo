@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.command;
+package fr.aytronn.moduloapi.object.command;
 
 import org.javacord.api.interaction.SlashCommandOptionType;
 

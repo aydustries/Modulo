@@ -1,11 +1,11 @@
 package fr.aytronn.modulocore.managers;
 
-import fr.aytronn.moduloapi.command.Command;
-import fr.aytronn.moduloapi.command.CommandArgs;
-import fr.aytronn.moduloapi.command.ICommandManager;
-import fr.aytronn.moduloapi.command.SlashCommandObject;
-import fr.aytronn.moduloapi.command.SubCommandGroupObject;
-import fr.aytronn.moduloapi.command.SubCommandObject;
+import fr.aytronn.moduloapi.api.command.Command;
+import fr.aytronn.moduloapi.api.command.CommandArgs;
+import fr.aytronn.moduloapi.api.command.ICommandManager;
+import fr.aytronn.moduloapi.object.command.SlashCommandObject;
+import fr.aytronn.moduloapi.object.command.SubCommandGroupObject;
+import fr.aytronn.moduloapi.object.command.SubCommandObject;
 import fr.aytronn.modulocore.ModuloCore;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandOption;
@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class CommandManager implements ICommandManager {
 
-    Map<String, SlashCommandObject> commands;
+    private final Map<String, SlashCommandObject> commands;
 
-    Map<String, Map.Entry<Method, Object>> methods;
+    private final Map<String, Map.Entry<Method, Object>> methods;
 
     public CommandManager() {
         this.commands = new HashMap<>();
@@ -40,7 +40,7 @@ public class CommandManager implements ICommandManager {
                 continue;
             }
 
-            final var command = m.getAnnotation(Command.class);
+            final Command command = m.getAnnotation(Command.class);
             if (command == null) continue;
 
             final String[] split = command.name().toLowerCase().split("\\.");

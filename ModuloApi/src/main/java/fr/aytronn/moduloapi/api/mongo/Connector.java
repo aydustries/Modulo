@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.api;
+package fr.aytronn.moduloapi.api.mongo;
 
 import com.google.gson.Gson;
 import fr.aytronn.moduloapi.ModuloApi;

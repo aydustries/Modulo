@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.modules.exception;
+package fr.aytronn.moduloapi.exceptions.module;
 
 /**
  * @author HookWoods

@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.api;
+package fr.aytronn.moduloapi.api.mongo;
 
 import fr.aytronn.moduloapi.utils.TimerUtil;
 

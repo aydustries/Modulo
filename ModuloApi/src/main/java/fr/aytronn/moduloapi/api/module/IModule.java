@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.modules;
+package fr.aytronn.moduloapi.api.module;
 
 import fr.aytronn.moduloapi.ModuloApi;
 import org.javacord.api.DiscordApi;
@@ -251,6 +251,10 @@ public abstract class IModule {
      */
     public void registerCommand(Object commandClass) {
         ModuloApi.getInstance().getModuleManager().registerCommand(this, commandClass);
+    }
+
+    public void registerAction(Object commandClass) {
+        ModuloApi.getInstance().getModuleManager().registerAction(this, commandClass);
     }
 
     /**

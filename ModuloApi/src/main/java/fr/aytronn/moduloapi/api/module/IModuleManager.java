@@ -1,6 +1,6 @@
-package fr.aytronn.moduloapi.modules;
+package fr.aytronn.moduloapi.api.module;
 
-import fr.aytronn.moduloapi.modules.exception.InvalidModuleException;
+import fr.aytronn.moduloapi.exceptions.module.InvalidModuleException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.javacord.api.entity.Attachment;
@@ -100,6 +100,15 @@ public interface IModuleManager {
     void registerCommand(IModule module, Object commandClass);
 
     /**
+     * Allow to register an action
+     *
+     * @param module IModule
+     *
+     * @param actionClass Action class
+     */
+    void registerAction(IModule module, Object actionClass);
+
+    /**
      * Useful to avoid memory leak and close
      * the custom class loader
      *
@@ -150,6 +159,13 @@ public interface IModuleManager {
      * @return every class name with their class
      */
     Object2ObjectMap<String, Class<?>> getClasses();
+
+    /**
+     * Useful to get every actions
+     *
+     * @return every module with their actions
+     */
+    Object2ObjectMap<IModule, ObjectList<Object>> getActions();
 
     /**
      * Useful to get a module by it's class

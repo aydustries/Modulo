@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     api("org.javacord:javacord:3.7.0")
+    api("com.vdurmont:emoji-java:5.1.1")
     api("org.yaml:snakeyaml:1.27")
     api("com.google.code.gson:gson:2.8.9")
     api("io.netty:netty-all:4.1.86.Final")

@@ -3,7 +3,7 @@ package fr.aytronn.moduloapi.mongodb;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import fr.aytronn.moduloapi.ModuloApi;
-import fr.aytronn.moduloapi.api.AutoReconnector;
+import fr.aytronn.moduloapi.api.mongo.AutoReconnector;
 import fr.aytronn.moduloapi.mongodb.settings.MongoSettings;
 
 /**

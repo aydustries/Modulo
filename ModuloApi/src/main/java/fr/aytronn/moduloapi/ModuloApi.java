@@ -1,9 +1,10 @@
 package fr.aytronn.moduloapi;
 
 import com.google.gson.Gson;
-import fr.aytronn.moduloapi.command.ICommandManager;
-import fr.aytronn.moduloapi.config.IPersist;
-import fr.aytronn.moduloapi.modules.IModuleManager;
+import fr.aytronn.moduloapi.api.action.IActionManager;
+import fr.aytronn.moduloapi.api.command.ICommandManager;
+import fr.aytronn.moduloapi.api.config.IPersist;
+import fr.aytronn.moduloapi.api.module.IModuleManager;
 import fr.aytronn.moduloapi.mongodb.IMongoService;
 import fr.aytronn.moduloapi.mongodb.MongoConnector;
 import fr.aytronn.moduloapi.mongodb.MongoService;
@@ -99,4 +100,11 @@ public abstract class ModuloApi {
      * @return the command manager
      */
     public abstract ICommandManager getCommandManager();
+
+    /**
+     * Useful to get the action manager
+     *
+     * @return the action manager
+     */
+    public abstract IActionManager getActionManager();
 }

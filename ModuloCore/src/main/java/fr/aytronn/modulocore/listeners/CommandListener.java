@@ -1,6 +1,6 @@
 package fr.aytronn.modulocore.listeners;
 
-import fr.aytronn.moduloapi.command.CommandArgs;
+import fr.aytronn.moduloapi.api.command.CommandArgs;
 import fr.aytronn.modulocore.ModuloCore;
 import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;

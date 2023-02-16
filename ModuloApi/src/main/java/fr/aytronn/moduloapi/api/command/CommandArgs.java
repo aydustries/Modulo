@@ -1,4 +1,4 @@
-package fr.aytronn.moduloapi.command;
+package fr.aytronn.moduloapi.api.command;
 
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageFlag;

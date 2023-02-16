@@ -1,4 +1,6 @@
-package fr.aytronn.moduloapi.command;
+package fr.aytronn.moduloapi.api.command;
+
+import fr.aytronn.moduloapi.object.command.SlashCommandObject;
 
 import java.util.Map;
 
