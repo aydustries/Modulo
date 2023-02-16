@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.aytronn.moduloapi.api.action.IActionManager;
 import fr.aytronn.moduloapi.api.command.ICommandManager;
 import fr.aytronn.moduloapi.api.config.IPersist;
+import fr.aytronn.moduloapi.api.config.ISettingsManager;
 import fr.aytronn.moduloapi.api.module.IModuleManager;
 import fr.aytronn.moduloapi.mongodb.IMongoService;
 import fr.aytronn.moduloapi.mongodb.MongoConnector;
@@ -107,4 +108,11 @@ public abstract class ModuloApi {
      * @return the action manager
      */
     public abstract IActionManager getActionManager();
+
+    /**
+     * Useful to get the settings manager
+     *
+     * @return the settings manager
+     */
+    public abstract ISettingsManager getSettingsManager();
 }

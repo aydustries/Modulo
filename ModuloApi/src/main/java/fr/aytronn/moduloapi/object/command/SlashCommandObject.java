@@ -1,15 +1,17 @@
 package fr.aytronn.moduloapi.object.command;
 
+import org.javacord.api.interaction.SlashCommand;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class SlashCommandObject {
     private final String command;
-
     private String description;
-
     private final Map<String, SubCommandGroupObject> subCommandGroups;
     private final Map<String, SubCommandObject> subCommand;
+
+    private SlashCommand slashCommand;
 
     public SlashCommandObject(String command) {
         this.command = command;
@@ -51,5 +53,13 @@ public class SlashCommandObject {
             return "Empty description";
         }
         return this.description;
+    }
+
+    public void setSlashCommand(SlashCommand slashCommand) {
+        this.slashCommand = slashCommand;
+    }
+
+    public SlashCommand getSlashCommand() {
+        return this.slashCommand;
     }
 }

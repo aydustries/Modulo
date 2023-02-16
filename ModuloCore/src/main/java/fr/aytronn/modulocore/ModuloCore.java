@@ -9,9 +9,11 @@ import fr.aytronn.modulocore.actions.CoreAction;
 import fr.aytronn.modulocore.commands.CoreCommand;
 import fr.aytronn.modulocore.config.Persist;
 import fr.aytronn.modulocore.listeners.ActionListener;
+import fr.aytronn.modulocore.listeners.ChannelUpdaterListener;
 import fr.aytronn.modulocore.listeners.CommandListener;
 import fr.aytronn.modulocore.managers.ActionManager;
 import fr.aytronn.modulocore.managers.CommandManager;
+import fr.aytronn.modulocore.managers.SettingsManager;
 import fr.aytronn.modulocore.managers.module.ModuleManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -34,7 +36,7 @@ public class ModuloCore {
     private Configuration config;
     private File folder;
     private final CommandManager commandManager;
-
+    private final SettingsManager settingsManager;
     private final ActionManager actionManager;
     private final ModuloApiImpl moduloApi;
     private final Server discordServer;
@@ -51,11 +53,11 @@ public class ModuloCore {
         this.persist = new Persist();
         loadConfiguration();
         getLogger().info("Configuration loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
-
         startMillis = System.currentTimeMillis();
         getLogger().info("Loading api");
         this.moduloApi = new ModuloApiImpl(getInstance());
         getModuloApi().setupMongo(getConfig().getMongoUri());
+        this.settingsManager = new SettingsManager();
         getLogger().info("Databases loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
 
         startMillis = System.currentTimeMillis();
@@ -155,6 +157,7 @@ public class ModuloCore {
     private void registerListeners() {
         getDiscordApi().addListener(new CommandListener());
         getDiscordApi().addListener(new ActionListener());
+        getDiscordApi().addListener(new ChannelUpdaterListener());
     }
 
     private void registerCommands() {
@@ -217,5 +220,9 @@ public class ModuloCore {
 
     public ActionManager getActionManager() {
         return this.actionManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return this.settingsManager;
     }
 }

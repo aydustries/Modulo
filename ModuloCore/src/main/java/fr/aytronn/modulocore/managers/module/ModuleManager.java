@@ -255,20 +255,20 @@ public class ModuleManager implements IModuleManager {
     }
 
     @Override
-    public boolean loadModule(String module) {
+    public IModule loadModule(String module) {
         for (final File file : getModuleDir().listFiles()) {
             if (getJarPattern().matcher(file.getName()).matches()) {
                 if (file.getName().toLowerCase().contains(module.toLowerCase())) {
                     try {
-                        loadModule(file);
+                        return loadModule(file);
                     } catch (InvalidModuleException e) {
                         e.printStackTrace();
                     }
-                    return true;
+                    return null;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -349,6 +349,12 @@ public class ModuleManager implements IModuleManager {
     public void downloadModuleFromAttachment(Attachment attachment) {
         if (!getJarPattern().matcher(attachment.getFileName()).matches()) return;
 
+        for (final IModule value : getModules().values()) {
+            if (value.getJarFile().getName().equalsIgnoreCase(attachment.getFileName())) {
+                deleteModule(value);
+            }
+        }
+
         try (InputStream inputStream = attachment.asInputStream()) {
             final byte[] fileData = inputStream.readAllBytes();
             final FileOutputStream stream = new FileOutputStream(ModuloCore.getInstance().getModuleManager().getModuleDir() + "/" + attachment.getFileName());
@@ -361,6 +367,9 @@ public class ModuleManager implements IModuleManager {
 
     @Override
     public boolean deleteModule(IModule module) {
+        if (module == null) {
+            return false;
+        }
         if (module.isEnabled()) {
             disableModule(module);
         }

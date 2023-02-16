@@ -100,9 +100,11 @@ public class CommandManager implements ICommandManager {
             registerSubCommand(options, slashCommandObject.getSubCommand().values());
 
             ModuloCore.getInstance().getLogger().info("Load command: " + slashCommandObject.getCommand());
-            SlashCommand.with(slashCommandObject.getCommand(), slashCommandObject.getDescription(), options)
+            final SlashCommand slashCommand = SlashCommand.with(slashCommandObject.getCommand(), slashCommandObject.getDescription(), options)
                     .createForServer(ModuloCore.getInstance().getDiscordServer())
                     .join();
+
+            slashCommandObject.setSlashCommand(slashCommand);
         }
 
         ModuloCore.getInstance().getLogger().info("Commands loaded");

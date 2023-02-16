@@ -1,9 +1,12 @@
 package fr.aytronn.moduloapi.api.config;
 
+import fr.aytronn.moduloapi.enums.SaveType;
+
 public class Configuration {
     private String mongoUri = "";
     private String botToken = "";
     private String serverId = "";
+    private SaveType saveType = SaveType.FILE;
 
     /**
      * Get the mongo uri
@@ -30,6 +33,10 @@ public class Configuration {
      */
     public String getServerId() {
         return getEnv("SERVER_ID", this.serverId);
+    }
+
+    public SaveType getSaveType() {
+        return SaveType.valueOf(getEnv("SAVE_TYPE", this.saveType.name()));
     }
 
     /**

@@ -198,9 +198,9 @@ public interface IModuleManager {
      *
      * @param module to disable
      *
-     * @return true if the module was loaded
+     * @return the module was loaded
      */
-    boolean loadModule(String module);
+    IModule loadModule(String module);
 
     /**
      * Useful to disable a specific module

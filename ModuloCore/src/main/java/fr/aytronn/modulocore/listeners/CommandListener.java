@@ -14,7 +14,6 @@ public class CommandListener implements SlashCommandCreateListener {
 
     @Override
     public void onSlashCommandCreate(SlashCommandCreateEvent event) {
-
         final Map.Entry<Method, Object> method = ModuloCore.getInstance().getCommandManager().getMethods().get(event.getSlashCommandInteraction().getFullCommandName().toLowerCase().replace(" ", "."));
         if (method == null) return;
         try {

@@ -2,9 +2,11 @@ package fr.aytronn.moduloapi.api.module;
 
 import fr.aytronn.moduloapi.ModuloApi;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.listener.GloballyAttachableListener;
 import org.slf4j.Logger;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -304,6 +306,21 @@ public abstract class IModule {
      */
     public State getState() {
         return this.state;
+    }
+
+    /**
+     * Useful to get the embed of the module
+     *
+     * @return the current embed of the module
+     */
+    public EmbedBuilder getEmbed() {
+        return new EmbedBuilder()
+                .setTitle("Module " + getModuleInfo().getName())
+                .setDescription(getModuleInfo().getDescription())
+                .setColor(getState().equals(State.ENABLED) ? Color.GREEN : Color.RED)
+                .setAuthor(getModuleInfo().getAuthorsInLine())
+                .addField("State:", getState().name())
+                .setFooter("ModuloAPI - Modules");
     }
 
     public enum State {

@@ -175,4 +175,5 @@ gradle.properties
 .env.local
 
 ModuloCore/configuration.json
+ModuloCore/settings.json
 ModuloCore/modules

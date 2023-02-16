@@ -80,4 +80,8 @@ public class CommandArgs {
     public void reply(String message) {
         reply(message, MessageFlag.EPHEMERAL);
     }
+
+    public void reply() {
+        getCommandInteraction().createImmediateResponder().respond();
+    }
 }
