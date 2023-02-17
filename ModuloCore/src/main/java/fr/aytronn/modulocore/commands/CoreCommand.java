@@ -1,17 +1,18 @@
 package fr.aytronn.modulocore.commands;
 
-import fr.aytronn.moduloapi.command.Command;
-import fr.aytronn.moduloapi.command.CommandArgs;
-import fr.aytronn.moduloapi.modules.IModule;
+import fr.aytronn.moduloapi.api.command.Command;
+import fr.aytronn.moduloapi.api.command.CommandArgs;
+import fr.aytronn.moduloapi.api.module.IModule;
 import fr.aytronn.modulocore.ModuloCore;
+import org.javacord.api.entity.channel.ChannelType;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.ActionRow;
 import org.javacord.api.entity.message.component.Button;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.message.component.SelectMenu;
 import org.javacord.api.interaction.SlashCommandOptionType;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.Color;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CoreCommand {
@@ -39,7 +40,7 @@ public class CoreCommand {
         ModuloCore.getInstance().stop();
     }
 
-    @Command(name = "modulo.module.list", description = "Get the list of module", subCommandType = {SlashCommandOptionType.STRING}, subCommand = {"filter"}, required = false)
+    @Command(name = "modulo.module.list", description = "Get the list of module", required = false)
     public void moduleListCommand(CommandArgs args) {
         String filter = "";
         if (args.getCommandInteraction().getArguments().size() > 0) {
@@ -57,20 +58,14 @@ public class CoreCommand {
                 return;
             }
             moduleFound.set(true);
-            final EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle(module.getModuleInfo().getName())
-                    .setDescription(module.getModuleInfo().getDescription())
-                    .setAuthor(module.getModuleInfo().getAuthorsInLine())
-                    .addField("State", module.getState().name())
-                    .setColor(Color.BLUE);
 
             new MessageBuilder()
-                    .setEmbed(embed)
+                    .setEmbed(module.getEmbed())
                     .addComponents(ActionRow.of(
-                            Button.success("start@" + module.getModuleInfo().getName(), "Start"),
-                            Button.secondary("reload@" + module.getModuleInfo().getName(), "Reload"),
-                            Button.danger("stop@" + module.getModuleInfo().getName(), "Stop"),
-                            Button.danger("delete@" + module.getModuleInfo().getName(), "Delete")
+                            Button.success("start@@" + module.getModuleInfo().getName(), "Start"),
+                            Button.secondary("reload@@" + module.getModuleInfo().getName(), "Reload"),
+                            Button.danger("stop@@" + module.getModuleInfo().getName(), "Stop"),
+                            Button.danger("delete@@" + module.getModuleInfo().getName(), "Delete")
                     )).send(args.getChannel().get());
         });
 
@@ -115,10 +110,10 @@ public class CoreCommand {
         }
         final String moduleName = args.getCommandInteraction().getArguments().get(0).getStringValue().orElse("");
 
-        final boolean b = ModuloCore.getInstance().getModuleManager().loadModule(moduleName);
+        final IModule module = ModuloCore.getInstance().getModuleManager().loadModule(moduleName);
 
-        if (b) {
-            args.reply("Module " + moduleName + " disabled.");
+        if (module != null) {
+            args.reply("Module " + moduleName + " enabled.");
         } else {
             args.reply("Module " + moduleName + " not found.");
         }
@@ -178,13 +173,13 @@ public class CoreCommand {
 
             ModuloCore.getInstance().getModuleManager().downloadModuleFromAttachment(messageAttachment);
 
-            final boolean b = ModuloCore.getInstance().getModuleManager().loadModule(messageAttachment.getFileName().replace(".jar", ""));
-            if (!b) {
+            final IModule module = ModuloCore.getInstance().getModuleManager().loadModule(messageAttachment.getFileName().replace(".jar", ""));
+            if (module == null) {
                 args.reply("Module " + messageAttachment.getFileName() + " not found.");
                 return;
             }
 
-            args.reply("Loaded module " + messageAttachment.getFileName() + ".");
+            args.reply("Loaded module " + module.getModuleInfo().getName() + ".");
         });
     }
 
@@ -211,5 +206,18 @@ public class CoreCommand {
         } else {
             args.reply("Module " + moduleName + " not found.");
         }
+    }
+
+    @Command(name = "modulo.settings.updater", description = "Setup settings of modulo")
+    public void setupSettings(CommandArgs args) {
+        if (args.getChannel().isEmpty()) {
+            args.reply("You must execute this command in a channel.");
+            return;
+        }
+
+        args.getCommandInteraction().createImmediateResponder()
+                .setContent("Select the channel where you will send your modules for automatic updates")
+                .addComponents(ActionRow.of(SelectMenu.createChannelMenu("selectChannelUpdater", "Channel updater", 1, 1, List.of(ChannelType.SERVER_TEXT_CHANNEL))))
+                .respond();
     }
 }

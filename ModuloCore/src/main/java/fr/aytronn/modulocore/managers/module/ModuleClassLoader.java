@@ -1,11 +1,11 @@
 package fr.aytronn.modulocore.managers.module;
 
-import fr.aytronn.moduloapi.modules.IModule;
-import fr.aytronn.moduloapi.modules.IModuleClassLoader;
-import fr.aytronn.moduloapi.modules.IModuleInfo;
-import fr.aytronn.moduloapi.modules.IModuleManager;
-import fr.aytronn.moduloapi.modules.exception.InvalidDescriptionException;
-import fr.aytronn.moduloapi.modules.exception.InvalidModuleException;
+import fr.aytronn.moduloapi.api.module.IModule;
+import fr.aytronn.moduloapi.api.module.IModuleClassLoader;
+import fr.aytronn.moduloapi.api.module.IModuleInfo;
+import fr.aytronn.moduloapi.api.module.IModuleManager;
+import fr.aytronn.moduloapi.exceptions.module.InvalidDescriptionException;
+import fr.aytronn.moduloapi.exceptions.module.InvalidModuleException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;

@@ -174,5 +174,6 @@ gradle.properties
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,gradle
 .env.local
 
-configuration.json
-modules
+ModuloCore/configuration.json
+ModuloCore/settings.json
+ModuloCore/modules

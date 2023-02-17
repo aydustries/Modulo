@@ -2,19 +2,22 @@ package fr.aytronn.modulocore;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.aytronn.moduloapi.config.Configuration;
+import fr.aytronn.moduloapi.api.config.Configuration;
 import fr.aytronn.moduloapi.exceptions.ServerNotFoundException;
 import fr.aytronn.moduloapi.utils.threads.ZakaryThread;
+import fr.aytronn.modulocore.actions.CoreAction;
 import fr.aytronn.modulocore.commands.CoreCommand;
 import fr.aytronn.modulocore.config.Persist;
+import fr.aytronn.modulocore.listeners.ActionListener;
+import fr.aytronn.modulocore.listeners.ChannelUpdaterListener;
 import fr.aytronn.modulocore.listeners.CommandListener;
-import fr.aytronn.modulocore.listeners.InteractionListener;
+import fr.aytronn.modulocore.managers.ActionManager;
 import fr.aytronn.modulocore.managers.CommandManager;
+import fr.aytronn.modulocore.managers.SettingsManager;
 import fr.aytronn.modulocore.managers.module.ModuleManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.server.Server;
-import org.javacord.api.listener.GloballyAttachableListener;
 import org.javacord.api.util.logging.FallbackLoggerConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,8 @@ public class ModuloCore {
     private Configuration config;
     private File folder;
     private final CommandManager commandManager;
+    private final SettingsManager settingsManager;
+    private final ActionManager actionManager;
     private final ModuloApiImpl moduloApi;
     private final Server discordServer;
     private final ModuleManager moduleManager;
@@ -42,16 +47,17 @@ public class ModuloCore {
         this.logger = LoggerFactory.getLogger(ModuloCore.class);
         getLogger().info("==========- " + "ModuloAPI" + " -==========");
         long startMillis = System.currentTimeMillis();
+        final long initMillis = startMillis;
         getLogger().info("Loading configuration");
         this.gson = new GsonBuilder().setPrettyPrinting().setLenient().disableHtmlEscaping().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).create();
         this.persist = new Persist();
         loadConfiguration();
         getLogger().info("Configuration loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
-
         startMillis = System.currentTimeMillis();
         getLogger().info("Loading api");
         this.moduloApi = new ModuloApiImpl(getInstance());
         getModuloApi().setupMongo(getConfig().getMongoUri());
+        this.settingsManager = new SettingsManager();
         getLogger().info("Databases loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
 
         startMillis = System.currentTimeMillis();
@@ -79,7 +85,9 @@ public class ModuloCore {
         startMillis = System.currentTimeMillis();
         getLogger().info("Loading Modules");
         this.commandManager = new CommandManager();
+        this.actionManager = new ActionManager();
         registerCommands();
+        registerActions();
         this.moduleManager = new ModuleManager();
         getModuleManager().loadModules();
         getLogger().info("Modules loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
@@ -89,6 +97,8 @@ public class ModuloCore {
         registerListeners();
         getCommandManager().loadCommands();
         getLogger().info("Utils loaded (" + (System.currentTimeMillis() - startMillis) + ") ms.");
+
+        getLogger().info("ModuloAPI loaded (" + (System.currentTimeMillis() - initMillis) + ") ms.");
     }
 
     public static void main(String[] args) {
@@ -144,29 +154,18 @@ public class ModuloCore {
         }
     }
 
-    public void registerCommand(Object object) {
-        getCommandManager().registerCommand(object);
-    }
-
-    public void unregisterCommand(Object object) {
-        getCommandManager().unregisterCommand(object);
-    }
-
-    public void registerListener(GloballyAttachableListener listener) {
-        getDiscordApi().addListener(listener);
-    }
-
-    public void unregisterListener(GloballyAttachableListener globallyAttachableListener) {
-        getDiscordApi().removeListener(globallyAttachableListener);
-    }
-
     private void registerListeners() {
-        registerListener(new CommandListener());
-        registerListener(new InteractionListener());
+        getDiscordApi().addListener(new CommandListener());
+        getDiscordApi().addListener(new ActionListener());
+        getDiscordApi().addListener(new ChannelUpdaterListener());
     }
 
     private void registerCommands() {
-        registerCommand(new CoreCommand());
+        getCommandManager().registerCommand(new CoreCommand());
+    }
+
+    private void registerActions() {
+        getActionManager().registerAction(new CoreAction());
     }
 
     public static ModuloCore getInstance() {
@@ -217,5 +216,13 @@ public class ModuloCore {
 
     public Server getDiscordServer() {
         return this.discordServer;
+    }
+
+    public ActionManager getActionManager() {
+        return this.actionManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return this.settingsManager;
     }
 }

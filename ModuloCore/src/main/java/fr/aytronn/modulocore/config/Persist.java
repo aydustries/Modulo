@@ -2,8 +2,8 @@ package fr.aytronn.modulocore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.aytronn.moduloapi.config.IDiscUtil;
-import fr.aytronn.moduloapi.config.IPersist;
+import fr.aytronn.moduloapi.api.config.IDiscUtil;
+import fr.aytronn.moduloapi.api.config.IPersist;
 import fr.aytronn.moduloapi.utils.threads.ZakaryThread;
 import fr.aytronn.modulocore.ModuloCore;
 

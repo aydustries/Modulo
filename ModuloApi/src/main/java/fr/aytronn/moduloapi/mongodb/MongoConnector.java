@@ -1,6 +1,6 @@
 package fr.aytronn.moduloapi.mongodb;
 
-import fr.aytronn.moduloapi.api.Connector;
+import fr.aytronn.moduloapi.api.mongo.Connector;
 import fr.aytronn.moduloapi.mongodb.settings.MongoSettings;
 
 /**

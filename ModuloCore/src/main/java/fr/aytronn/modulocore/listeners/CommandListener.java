@@ -1,6 +1,6 @@
 package fr.aytronn.modulocore.listeners;
 
-import fr.aytronn.moduloapi.command.CommandArgs;
+import fr.aytronn.moduloapi.api.command.CommandArgs;
 import fr.aytronn.modulocore.ModuloCore;
 import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
@@ -14,7 +14,6 @@ public class CommandListener implements SlashCommandCreateListener {
 
     @Override
     public void onSlashCommandCreate(SlashCommandCreateEvent event) {
-
         final Map.Entry<Method, Object> method = ModuloCore.getInstance().getCommandManager().getMethods().get(event.getSlashCommandInteraction().getFullCommandName().toLowerCase().replace(" ", "."));
         if (method == null) return;
         try {

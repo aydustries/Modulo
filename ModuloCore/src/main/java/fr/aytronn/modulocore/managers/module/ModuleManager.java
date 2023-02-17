@@ -1,9 +1,9 @@
 package fr.aytronn.modulocore.managers.module;
 
-import fr.aytronn.moduloapi.modules.IModule;
-import fr.aytronn.moduloapi.modules.IModuleClassLoader;
-import fr.aytronn.moduloapi.modules.IModuleManager;
-import fr.aytronn.moduloapi.modules.exception.InvalidModuleException;
+import fr.aytronn.moduloapi.api.module.IModule;
+import fr.aytronn.moduloapi.api.module.IModuleClassLoader;
+import fr.aytronn.moduloapi.api.module.IModuleManager;
+import fr.aytronn.moduloapi.exceptions.module.InvalidModuleException;
 import fr.aytronn.moduloapi.utils.threads.ZakaryThread;
 import fr.aytronn.modulocore.ModuloCore;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -35,6 +35,7 @@ public class ModuleManager implements IModuleManager {
     private final Object2ObjectMap<IModule, IModuleClassLoader> loaders;
     private final Object2ObjectMap<IModule, ObjectList<GloballyAttachableListener>> listeners;
     private final Object2ObjectMap<IModule, ObjectList<Object>> commands;
+    private final Object2ObjectMap<IModule, ObjectList<Object>> actions;
     private final Object2ObjectMap<String, Class<?>> classes;
 
     public ModuleManager() {
@@ -43,6 +44,7 @@ public class ModuleManager implements IModuleManager {
         this.modules = new Object2ObjectOpenHashMap<>();
         this.listeners = new Object2ObjectOpenHashMap<>();
         this.commands = new Object2ObjectOpenHashMap<>();
+        this.actions = new Object2ObjectOpenHashMap<>();
         this.loaders = new Object2ObjectOpenHashMap<>();
         this.classes = new Object2ObjectOpenHashMap<>();
 
@@ -55,11 +57,6 @@ public class ModuleManager implements IModuleManager {
         }
     }
 
-    /**
-     * Useful to load every modules from the default modules folder
-     *
-     * @return the loaded modules
-     */
     @Override
     public ObjectList<IModule> loadModules() {
         try {
@@ -70,12 +67,6 @@ public class ModuleManager implements IModuleManager {
         return new ObjectArrayList<>();
     }
 
-    /**
-     * Useful to load every modules from a directory
-     *
-     * @param directory to load modules from
-     * @return the loaded module
-     */
     @Override
     public ObjectList<IModule> loadModules(File directory) {
         final CompletableFuture<ObjectList<File>> fileCompletable = CompletableFuture.supplyAsync(() -> {
@@ -110,12 +101,6 @@ public class ModuleManager implements IModuleManager {
         return result;
     }
 
-    /**
-     * Useful to enable a specific jar file
-     *
-     * @param file of the jarfile to load
-     * @return the loaded module
-     */
     @Override
     public IModule loadModule(File file) throws InvalidModuleException {
         final IModule result;
@@ -151,25 +136,11 @@ public class ModuleManager implements IModuleManager {
         return result;
     }
 
-
-
-    /**
-     * Get a module by it's name
-     *
-     * @param module name to get
-     * @return the module
-     */
     @Override
     public IModule getModule(String module) {
         return getModules().get(module);
     }
 
-
-    /**
-     * Useful to get every enabled modules
-     *
-     * @return enabled module list
-     */
     @Override
     public ObjectList<IModule> getEnabledModule() {
         final ObjectList<IModule> list = new ObjectArrayList<>();
@@ -181,34 +152,16 @@ public class ModuleManager implements IModuleManager {
         return list;
     }
 
-    /**
-     * Useful to get every modules (loaded, disabled, enabled)
-     *
-     * @return every module
-     */
     @Override
     public Object2ObjectMap<String, IModule> getModules() {
         return this.modules;
     }
 
-    /**
-     * Useful to define a class by it's name
-     * in the class list
-     *
-     * @param name  of the class
-     * @param clazz to be defined
-     */
     @Override
     public void setClass(String name, Class<?> clazz) {
         getClasses().putIfAbsent(name, clazz);
     }
 
-    /**
-     * Useful to get a class by it's name
-     *
-     * @param name of the class to get
-     * @return the class if defined
-     */
     @Override
     public Class<?> getClassByName(String name) {
         try {
@@ -224,102 +177,63 @@ public class ModuleManager implements IModuleManager {
         return null;
     }
 
-    /**
-     * Useful to register a listener in the module
-     * and to be disabled at anytime
-     *
-     * @param module   of the listener
-     * @param listener to register
-     */
     @Override
     public void registerListener(IModule module, GloballyAttachableListener listener) {
-        ModuloCore.getInstance().registerListener(listener);
+        ModuloCore.getInstance().getDiscordApi().addListener(listener);
         getListeners().computeIfAbsent(module, k -> new ObjectArrayList<>()).add(listener);
 
     }
 
-    /**
-     * Allow to register a command
-     *
-     * @param module       IModule
-     * @param commandClass Command class
-     */
     @Override
     public void registerCommand(IModule module, Object commandClass) {
-        ModuloCore.getInstance().registerCommand(commandClass);
+        ModuloCore.getInstance().getCommandManager().registerCommand(commandClass);
         getCommands().computeIfAbsent(module, k -> new ObjectArrayList<>()).add(commandClass);
     }
 
-    /**
-     * Useful to avoid memory leak and close
-     * the custom class loader
-     *
-     * @param module to get
-     * @return the class loader
-     */
+    @Override
+    public void registerAction(IModule module, Object actionClass) {
+        ModuloCore.getInstance().getActionManager().registerAction(actionClass);
+        getActions().computeIfAbsent(module, k -> new ObjectArrayList<>()).add(actionClass);
+    }
+
     @Override
     public IModuleClassLoader getLoader(IModule module) {
         return this.loaders.get(module);
     }
 
-    /**
-     * Useful to get where module are placed
-     *
-     * @return the file dir of modules
-     */
     @Override
     public File getModuleDir() {
         return this.moduleDir;
     }
 
-    /**
-     * Useful to get a regex of jar pattern
-     *
-     * @return the regex pattern of jar file
-     */
     @Override
     public Pattern getJarPattern() {
         return this.jarPattern;
     }
 
-    /**
-     * Useful to get every loaders
-     *
-     * @return every module with their class loader
-     */
     @Override
     public Object2ObjectMap<IModule, IModuleClassLoader> getLoaders() {
         return this.loaders;
     }
 
-    /**
-     * Useful to get every listeners
-     *
-     * @return every module with their listeners
-     */
     @Override
     public Object2ObjectMap<IModule, ObjectList<GloballyAttachableListener>> getListeners() {
         return this.listeners;
     }
 
-    /**
-     * Useful to get every commands
-     *
-     * @return every module with their commands
-     */
     @Override
     public Object2ObjectMap<IModule, ObjectList<Object>> getCommands() {
         return this.commands;
     }
 
-    /**
-     * Useful to get every class
-     *
-     * @return every class name with their class
-     */
     @Override
     public Object2ObjectMap<String, Class<?>> getClasses() {
         return this.classes;
+    }
+
+    @Override
+    public Object2ObjectMap<IModule, ObjectList<Object>> getActions() {
+        return this.actions;
     }
 
     @Override
@@ -341,20 +255,20 @@ public class ModuleManager implements IModuleManager {
     }
 
     @Override
-    public boolean loadModule(String module) {
+    public IModule loadModule(String module) {
         for (final File file : getModuleDir().listFiles()) {
             if (getJarPattern().matcher(file.getName()).matches()) {
                 if (file.getName().toLowerCase().contains(module.toLowerCase())) {
                     try {
-                        loadModule(file);
+                        return loadModule(file);
                     } catch (InvalidModuleException e) {
                         e.printStackTrace();
                     }
-                    return true;
+                    return null;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -376,6 +290,7 @@ public class ModuleManager implements IModuleManager {
             ModuloCore.getInstance().getLogger().info("ModuloAPI - Modules: Successfully disabled.");
         }
         getCommands().clear();
+        getActions().clear();
         getListeners().clear();
         getModules().clear();
         getLoaders().clear();
@@ -387,16 +302,23 @@ public class ModuleManager implements IModuleManager {
         // Clear listeners
         if (getListeners().containsKey(module)) {
             getListeners().get(module).forEach(globallyAttachableListener -> {
-                ModuloCore.getInstance().unregisterListener(globallyAttachableListener);
+                ModuloCore.getInstance().getDiscordApi().removeListener(globallyAttachableListener);
             });
             getListeners().remove(module);
         }
         if (getCommands().containsKey(module)) {
             getCommands().get(module).forEach(command -> {
-                ModuloCore.getInstance().unregisterCommand(command);
+                ModuloCore.getInstance().getCommandManager().unregisterCommand(command);
             });
             getCommands().remove(module);
         }
+        if (getActions().containsKey(module)) {
+            getActions().get(module).forEach(action -> {
+                ModuloCore.getInstance().getActionManager().unregisterAction(action);
+            });
+            getActions().remove(module);
+        }
+
         if (module.isEnabled()) {
             ModuloCore.getInstance().getLogger().info("ModuloAPI - Modules: Disabling " + module.getModuleInfo().getName() + "...");
             try {
@@ -427,6 +349,12 @@ public class ModuleManager implements IModuleManager {
     public void downloadModuleFromAttachment(Attachment attachment) {
         if (!getJarPattern().matcher(attachment.getFileName()).matches()) return;
 
+        for (final IModule value : getModules().values()) {
+            if (value.getJarFile().getName().equalsIgnoreCase(attachment.getFileName())) {
+                deleteModule(value);
+            }
+        }
+
         try (InputStream inputStream = attachment.asInputStream()) {
             final byte[] fileData = inputStream.readAllBytes();
             final FileOutputStream stream = new FileOutputStream(ModuloCore.getInstance().getModuleManager().getModuleDir() + "/" + attachment.getFileName());
@@ -439,6 +367,9 @@ public class ModuleManager implements IModuleManager {
 
     @Override
     public boolean deleteModule(IModule module) {
+        if (module == null) {
+            return false;
+        }
         if (module.isEnabled()) {
             disableModule(module);
         }

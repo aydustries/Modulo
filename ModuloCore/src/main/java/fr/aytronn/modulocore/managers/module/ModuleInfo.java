@@ -1,7 +1,7 @@
 package fr.aytronn.modulocore.managers.module;
 
-import fr.aytronn.moduloapi.modules.IModuleInfo;
-import fr.aytronn.moduloapi.modules.exception.InvalidDescriptionException;
+import fr.aytronn.moduloapi.api.module.IModuleInfo;
+import fr.aytronn.moduloapi.exceptions.module.InvalidDescriptionException;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;

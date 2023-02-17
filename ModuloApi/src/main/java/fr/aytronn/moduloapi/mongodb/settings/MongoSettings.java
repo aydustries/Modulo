@@ -2,7 +2,7 @@ package fr.aytronn.moduloapi.mongodb.settings;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import fr.aytronn.moduloapi.api.Settings;
+import fr.aytronn.moduloapi.api.mongo.Settings;
 
 /**
  * This class is useful to manage the settings of the database

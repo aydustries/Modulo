@@ -1,7 +1,7 @@
 package fr.aytronn.modulocore.config;
 
 import com.google.common.io.Files;
-import fr.aytronn.moduloapi.config.IDiscUtil;
+import fr.aytronn.moduloapi.api.config.IDiscUtil;
 import fr.aytronn.moduloapi.utils.threads.ZakaryThread;
 import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
 import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
